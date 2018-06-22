@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title>库存管理</title>
+		<link rel="shortcut icon" href="assets/img/favicon.png" type="image/x-icon">
+		<link rel="stylesheet" href="assets/css/bootstrap.min.css" />
+		<link rel="stylesheet" type="text/css" href="assets/css/public.css" />
+		<style>
+			.demo_title {
+				margin-bottom: 10px;
+			}
+			
+			.title_titles {
+				border: 1px solid #DDDDDD;
+			}
+			
+			.export {
+				float: left;
+				margin-right: 10px;
+				width: auto;
+				padding: 0px 5px;
+			}
+			.btn-default{
+				width: 80px;
+			}
+			.tb{
+				height: 40px;
+				line-height: 40px;
+			}
+		</style>
+	</head>
+
+	<body>
+		<div class="demo_title">仓库管理/报单管理/填写报溢单</div>
+		<div class="title_titles m-lf">
+			<form class="form-inline">
+				<div class="form-group">
+					<label for="">备注</label>
+					<input type="text" id="remark" class="form-control" readonly="readonly" style="width: 500px;margin-right: 500px;" />
+				</div>
+				<div class="form-group">
+					<span>订单日期:</span>
+					<span id="times">2018-04-16</span>
+				</div>
+			</form>
+		</div>
+		<div class="tableBox">
+			<table class="table table-bordered table-hover text-center">
+				<tr>
+					<td>商品编号</td>
+					<td>商品信息</td>
+					<td>规格</td>
+					<td>数量(单位)</td>
+					<td>辅助单位1</td>
+					<td>辅助单位2</td>
+					<td>金额</td>
+				</tr>
+				<tbody>
+					<tr>
+						<td id="bianhao"></td>
+						<td id="info"></td>
+						<td id="norm"></td>
+						<td id="shuliang"></td>
+						<td id="fuzhu1"></td>
+						<td id="fuzhu2"></td>
+						<td id="money"></td>
+					</tr>
+				</tbody>
+			</table>
+			<div class="tb clearFix">
+				<div style="float: left;">
+					<span>订单编号：</span>
+					<span id="orderNum" style="margin-right: 100px;">mdlsakmdklsamdkla</span>
+					<span>制单人：</span>
+					<span id="people">孟威震</span>
+				</div>
+				<div style="float: right;">
+					<span>合计金额：</span>
+					<span>￥<span id="totalmoney">2838.27</span></span>
+				</div>
+			</div>
+		</div>
+		<script src="assets/js/jquery-2.0.3.min.js"></script>
+		<script src="assets/js/bootstrap.min.js"></script>
+		<script src="assets/js/basic.js"></script>
+		<script>
+			var id = GetQueryString('id');
+			$(function(){
+				lowd();
+			});
+			function lowd(){
+				$.ajax({
+					type:"get",
+					url:base + "/warehouse/declaration/info?id="+id,
+					async:true,
+					headers: {
+						"Authorization": JSON.parse(sessionStorage.getItem('userInfo')).token
+					},
+					success:function(data){
+						var data = data.data;
+						$('#remark').val(data.remark);
+						$('#times').text(timetrans(data.createTime));
+						$.each(data.goodsList, function(index,obj) {
+							$('#bianhao').text(obj.goodsnumber);
+							$('#info').text(obj.goodsinfo);
+							$('#norm').text(obj.norm);
+							$('#shuliang').text(obj.goodsnum);
+							$('#fuzhu1').text(obj.aidunitf);
+							$('#fuzhu2').text(obj.aidunits);
+							$('#money').text(obj.money);
+						});
+						$('#orderNum').text(data.ordernum)
+						$('#people').text(data.preparedby)
+						$('#totalmoney').text(data.totalmoney)
+					}
+				});
+			}
+		</script>
+	</body>
+</html>

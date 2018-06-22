@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title>库存管理</title>
+		<link rel="shortcut icon" href="assets/img/favicon.png" type="image/x-icon">
+		<link rel="stylesheet" href="assets/css/bootstrap.min.css" />
+		<link rel="stylesheet" type="text/css" href="assets/css/public.css" />
+		<style>
+			#info .modal-dialog {
+				width: 1000px;
+			}
+			
+			.branch_list {
+				height: 500px;
+				overflow: scroll;
+				word-break: break-all;
+			}
+			
+			.branch_list>span {
+				display: inline-block;
+				border: 1px solid #DDDDDD;
+				padding: 0px 8px;
+				width: 110px;
+				margin: 2px 0px;
+				margin-right: 8px;
+			}
+			
+			.branch_list>span>i {
+				float: right;
+			}
+		</style>
+	</head>
+
+	<body>
+		<div class="demo_title">仓库管理/分仓管理</div>
+		<div class="title_titles">
+			<form class="form-inline">
+				<div class="form-group">
+					<input class="form-control" id="condition" type="text" placeholder="请输入搜索条件" />
+				</div>
+				<button type="button" id="search" class="btn btn-default">搜索</button>
+			</form>
+		</div>
+		<div class="tableBox">
+			<table class="table table-bordered table-hover text-center">
+				<tr>
+					<td>仓库</td>
+					<td>负责人</td>
+					<td>货架信息</td>
+					<td>操作</td>
+				</tr>
+				<tbody id="tbody">
+					<tr>
+						<td>A仓</td>
+						<td></td>
+						<td><button type="button" class="btn btn-default" data-toggle="modal" data-target="#info">查看修改</button></td>
+						<td>
+							<button type="button" class="btn btn-default" data-toggle="modal" data-target="#update">修改</button>
+							<button type="button" class="btn btn-default">删除</button>
+						</td>
+					</tr>
+				</tbody>
+			</table>
+			<div class="export btn btn-default" data-toggle="modal" data-target="#add">添加</div>
+		</div>
+		<!--添加弹窗-->
+		<div class="modal fade" id="add" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+			<div class="modal-dialog">
+				<div class="modal-content">
+					<div class="modal-header">
+						<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+						<h4 class="modal-title" id="myModalLabel">添加</h4>
+					</div>
+					<div class="modal-body">
+						<div class="row">
+							<label class="col-lg-2 text-center" style="margin-top: 5px;">仓库名</label>
+							<div class="col-lg-9">
+								<input type="text" id="addName" class="form-control" />
+							</div>
+						</div>
+					</div>
+					<div class="modal-footer">
+						<button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+						<button type="button" id="addStock" class="btn btn-primary">提交</button>
+					</div>
+				</div>
+			</div>
+		</div>
+		<!--修改弹窗-->
+		<div class="modal fade" id="update" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+			<div class="modal-dialog">
+				<div class="modal-content">
+					<div class="modal-header">
+						<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+						<h4 class="modal-title" id="myModalLabel">修改</h4>
+					</div>
+					<div class="modal-body">
+						<div class="row">
+							<label class="col-lg-2 text-center" style="margin-top: 5px;">仓库名</label>
+							<div class="col-lg-9">
+								<input type="text" id="updateName" class="form-control" />
+							</div>
+						</div>
+					</div>
+					<div class="modal-footer">
+						<button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+						<button type="button" id="updateStock" class="btn btn-primary">提交</button>
+					</div>
+				</div>
+			</div>
+		</div>
+		<!--货架信息-->
+		<div class="modal fade" id="info" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+			<div class="modal-dialog">
+				<div class="modal-content">
+					<div class="modal-body">
+						<div style="height: 30px;line-height: 30px;">货架信息</div>
+						<div class="branch_list">
+							<span>A-23<i class="glyphicon glyphicon-remove" style="margin-top: 8px; margin-left: 15px;" onclick="delIcon(this)"></i></span>
+						</div>
+						<div class="row" style="line-height: 40px;">
+							<div class="col-lg-offset-2 col-lg-3 text-center">
+								<button type="button" class="btn btn-default">确认</button>
+							</div>
+							<div class="col-lg-offset-2 col-lg-3 text-center">
+								<button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<script src="assets/js/jquery-2.0.3.min.js"></script>
+		<script src="assets/js/bootstrap.min.js"></script>
+		<script src="assets/js/basic.js"></script>
+		<script>
+			$(function() {
+				console.log($('.selectpicker', parent.document).val())
+				lowd(null);
+			})
+			//数据加载
+			function lowd(a) {
+				if(a == '') {
+					a = null;
+				};
+				$.ajax({
+					type: "get",
+					url: base + "warehouse/branch/list?cId=" + parseInt($('.selectpicker', parent.document).val()) + (a == null ? '' : "&warehouse=" + a),
+					headers: {
+						"Authorization": JSON.parse(sessionStorage.getItem('userInfo')).token
+					},
+					contentType: "application/x-www-form-urlencoded; charset=utf-8",
+					success: function(data) {
+						var data = data.data;
+						var list = ''
+						$.each(data, function(index, obj) {
+							list += '<tr>' +
+								'<td>' + obj.name + '</td>' +
+								'<td>' + obj.principal + '</td>' +
+								'<td><button type="button" class="btn btn-default" onclick="detail(' + obj.id + ')" data-toggle="modal" data-target="#info">查看修改</button></td>' +
+								'<td>' +
+								'<button type="button" class="btn btn-default" data-toggle="modal" onclick="updateDetail(' + obj.id + ',\'' + obj.name + '\')" data-target="#update">修改</button>' +
+								'<button type="button" class="btn btn-default" onclick="del(' + obj.id + ')">删除</button>' +
+								'</td>' +
+								'</tr>'
+						});
+						$('#tbody').html(list);
+					}
+				});
+			}
+			//搜索
+			$('#search').click(function() {
+				lowd($('#condition').val())
+			})
+			//删除
+			function del(a) {
+				$.ajax({
+					type: "get",
+					url: base + "warehouse/branch/delete?wId=" + a,
+					async: true,
+					headers: {
+						"Authorization": JSON.parse(sessionStorage.getItem('userInfo')).token
+					},
+					success: function(data) {
+						if(data.code == 0) {
+							if(data.data == true) {
+								location.reload();
+							}
+						} else if(data.code == -40600) {
+							alert(data.errMsg);
+						}
+					}
+				});
+			}
+			//仓库下的货架
+			function detail(a) {
+				$.ajax({
+					type: "get",
+					url: base + "warehouse/shelves/list?wId=" + a,
+					async: true,
+					headers: {
+						"Authorization": JSON.parse(sessionStorage.getItem('userInfo')).token
+					},
+					success: function(data) {
+						var data = data.data;
+						var list = '';
+						$.each(data, function(index, obj) {
+							list += '<span class="clearFix">' + obj.number + '<i class="glyphicon glyphicon-remove" onclick="delIcon(' + obj.id + ')" style="margin-top: 3px;"></i></span>'
+						});
+						$('.branch_list').html(list);
+					}
+				});
+			}
+			//删除货架
+			function delIcon(a) {
+				$.ajax({
+					type: "get",
+					url: base + "warehouse/shelves/delete?id=" + a,
+					async: true,
+					headers: {
+						"Authorization": JSON.parse(sessionStorage.getItem('userInfo')).token
+					},
+					success: function(data) {
+						if(data.code == 0) {
+							if(data.data == true) {
+								location.reload();
+							}
+						} else if(data.code == -40600) {
+							alert(data.errMsg);
+						}
+					}
+				});
+			}
+			//添加货架
+			$('#addStock').click(function() {
+				if($('.selectpicker', parent.document).val() == '' || $('#addName').val() == '') {
+					alert('请将参数填写完整，否则无法添加');
+				} else {
+					$.ajax({
+						type: "get",
+						url: base + "warehouse/branch/add?cId=" + $('.selectpicker', parent.document).val() + "&warehouse=" + $('#addName').val(),
+						contentType: "application/x-www-form-urlencoded; charset=utf-8",
+						async: true,
+						headers: {
+							"Authorization": JSON.parse(sessionStorage.getItem('userInfo')).token
+						},
+						success: function(data) {
+							if(data.code == 0) {
+								if(data.data == true) {
+									location.reload();
+								}
+							}
+						}
+					});
+				}
+			})
+			//修改仓库回显数据
+			function updateDetail(a, b) {
+				$('#updateName').val(b);
+				$('#updateName').attr('data_id', a);
+			};
+			//修改仓库
+			$('#updateStock').click(function() {
+				if($('#updateName').val() == '' || $('#updateName').attr('data_id') == '') {
+					alert('请将参数填写完整，否则无法添加');
+				} else {
+					$.ajax({
+						type: "get",
+						url: base + "warehouse/branch/update?wId=" + $('#updateName').attr('data_id') + "&warehouse=" + $('#updateName').val(),
+						contentType: "application/x-www-form-urlencoded; charset=utf-8",
+						async: true,
+						headers: {
+							"Authorization": JSON.parse(sessionStorage.getItem('userInfo')).token
+						},
+						success: function(data) {
+							if(data.code == 0) {
+								if(data.data == true) {
+									location.reload();
+								}
+							}
+						}
+					});
+				}
+			})
+		</script>
+	</body>
+
+</html>

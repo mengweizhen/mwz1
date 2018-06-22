@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title>销售管理</title>
+		<link rel="shortcut icon" href="assets/img/favicon.png" type="image/x-icon">
+		<link rel="stylesheet" href="assets/css/bootstrap.min.css" />
+		<link rel="stylesheet" type="text/css" href="assets/css/public.css" />
+		<style>
+			.demo_title {
+				margin-bottom: 10px;
+			}
+			
+			.title_titles {
+				border: 1px solid #DDDDDD;
+			}
+			
+			.export {
+				float: left;
+				margin-right: 10px;
+				width: auto;
+				padding: 0px 5px;
+			}
+			
+			.btn-default {
+				width: 80px;
+				margin-bottom: 6px;
+			}
+			
+			.tb {
+				height: 40px;
+				line-height: 40px;
+			}
+			
+			.inp {
+				width: 100px;
+				height: 25px;
+				line-height: 25px;
+				border-radius: 4px;
+				border-width: 1px;
+				outline: none;
+				padding: 0px 5px;
+			}
+			/*.form-group{
+				width:150px;
+			}*/
+			
+			select {
+				width: 150px!important;
+			}
+		</style>
+	</head>
+
+	<body>
+		<div class="demo_title">销售管理/销售单管理</div>
+		<div class="title_titles m-lf">
+			<form class="form-inline">
+				<div class="form-group">
+					<label>订单编号</label>
+					<input type="text" class="form-control" />
+				</div>
+				<div class="form-group">
+					<label>制单人</label>
+					<input type="text" class="form-control" />
+				</div>
+				<div class="form-group">
+					<label for="">状态</label>
+					<select class="form-control">
+						<option value=""></option>
+					</select>
+				</div>
+				<div class="form-group">
+					<label for="">订单日期</label>
+					<input type="date" class="form-control" style="margin: 0px;" />
+					<span>——</span>
+					<input type="date" class="form-control" />
+				</div>
+				<button type="button" class="btn btn-default">筛选</button>
+			</form>
+		</div>
+		<div class="tableBox">
+			<table class="table table-bordered table-hover text-center">
+				<tr>
+					<td>商品编号</td>
+					<td>日期</td>
+					<td>制单人</td>
+					<td>客户</td>
+					<td>应收金额</td>
+					<td>实收金额</td>
+					<td>状态</td>
+					<td>备注</td>
+				</tr>
+				<tbody id="tbody">
+					<tr id="tr" style="height: 40px;">
+						<td></td>
+						<td></td>
+						<td></td>
+						<td></td>
+						<td></td>
+						<td></td>
+						<td></td>
+						<td>
+							<!--<button type="button" id="del()" class="btn btn-default">删除</button>-->
+						</td>
+					</tr>
+				</tbody>
+			</table>
+			<button class="btn btn-default" id="adds" style="width: 80px;">导出</button>
+		</div>
+		<script src="assets/js/jquery-2.0.3.min.js"></script>
+		<script src="assets/js/bootstrap.min.js"></script>
+		<script src="assets/js/paging.js"></script>
+		<script src="assets/js/basic.js"></script>
+		<script>
+			
+		</script>
+	</body>
+
+</html>

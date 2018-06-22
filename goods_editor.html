@@ -1,0 +1,373 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title>商品管理</title>
+		<link rel="shortcut icon" href="assets/img/favicon.png" type="image/x-icon">
+		<link rel="stylesheet" href="assets/css/bootstrap.min.css" />
+		<link rel="stylesheet" type="text/css" href="assets/css/public.css" />
+		<style>
+			.textTitle {
+				font-size: 22px;
+				margin-left: 10px;
+			}
+			
+			.form-group {
+				margin: 10px 0px;
+			}
+			
+			.form-control {
+				margin-right: 10px;
+			}
+			
+			.row {
+				margin: 10px 0px;
+			}
+			
+			.col-lg-3 {
+				margin-left: 40px;
+			}
+			
+			.labels {
+				width: 80px;
+				font-weight: 300;
+			}
+			
+			input[type="text"],
+			select {
+				width: 200px;
+				height: 30px;
+				line-height: 30px;
+				border-radius: 4px;
+				border-width: 1px;
+				box-shadow: none;
+			}
+			
+			input[type="text"] {
+				padding: 0px 10px;
+				border-color: #DDDDDD!important;
+				outline: none;
+			}
+			
+			input[type="file"] {
+				width: 70px;
+			}
+		</style>
+	</head>
+
+	<body>
+		<div class="demo_title">商品管理/商品信息/编辑商品</div>
+		<div class="tableBox">
+			<div class="textTitle">商品信息</div>
+			<div class="row">
+				<div class="col-lg-3">
+					<label class="labels">品牌</label>
+					<select id="pinpai">
+						<option value="">两方面思考劳动模范</option>
+					</select>
+					<span style="color: red;margin-left: 10px;">*</span>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-lg-3">
+					<label class="labels">中文标准</label>
+					<select id="zbiaozhun">
+						<option value=""></option>
+					</select>
+					<span style="color: red;margin-left: 10px;">*</span>
+				</div>
+				<div class="col-lg-3">
+					<label class="labels">螺纹精度</label>
+					<input type="text" id="luowen" class="" />
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-lg-3">
+					<label class="labels">英文标准</label>
+					<select id="ybiaozhun">
+						<option value=""></option>
+					</select>
+					<span style="color: red;margin-left: 10px;">*</span>
+				</div>
+				<div class="col-lg-3">
+					<label class="labels">千重</label>
+					<input type="text" id="qianzhong" class="" />
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-lg-3">
+					<label class="labels">级别</label>
+					<input type="text" id="jibie" class="" disabled="true" style="background: #FFFFFF;" />
+					<!--<select id="jibie">
+						<option value="">两方面思考劳动模范</option>
+					</select>-->
+					<span style="color: red;margin-left: 10px;">*</span>
+				</div>
+				<div class="col-lg-3">
+					<label class="labels">机械性能</label>
+					<input type="text" id="jixie" class="" />
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-lg-3">
+					<label class="labels">规格</label>
+					<input type="text" id="guige" class="" />
+					<span style="color: red;margin-left: 10px;">*</span>
+				</div>
+				<div class="col-lg-3">
+					<label class="labels">公差</label>
+					<input type="text" id="gongcha" class="" />
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-lg-3">
+					<label class="labels">表面处理</label>
+					<select id="biaomian">
+						<option value="">两方面思考劳动模范</option>
+					</select>
+					<span style="color: red;margin-left: 10px;">*</span>
+				</div>
+				<div class="col-lg-3">
+					<label class="labels">牙距</label>
+					<input type="text" id="yaju" class="" />
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-lg-3">
+					<label class="labels">牙形</label>
+					<select id="yaxing">
+						<option value="">两方面思考劳动模范</option>
+					</select>
+					<span style="color: red;margin-left: 10px;">*</span>
+				</div>
+				<div class="col-lg-3">
+					<label class="labels">材质</label>
+					<input type="text" id="caizhi" class="" />
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-lg-3">
+					<label class="labels">基价</label>
+					<input type="text" id="jijia" class="" />
+					<span style="color: red;margin-left: 10px;">*</span>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-lg-3">
+					<label class="labels">小包装数量</label>
+					<input type="text" id="xiaobao" class="" />
+					<span style="color: red;margin-left: 10px;">*</span>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-lg-3">
+					<label class="labels">大包装数量</label>
+					<input type="text" id="dabao" class="" />
+					<span style="color: red;margin-left: 10px;">*</span>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-lg-3">
+					<label class="labels">单位</label>
+					<select id="danwei">
+						<option value="">两方面思考劳动模范</option>
+					</select>
+					<span style="color: red;margin-left: 10px;">*</span>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-lg-3" id="container1">
+					<label class="labels text-top" style="vertical-align: top;">技术图片</label>
+					<img src="assets/img/attach-red.png" id="img1" width="200px" height="200px" alt="" />
+				</div>
+				<div class="col-lg-3" id="container2">
+					<label class="labels text-top" style="vertical-align: top;">商品图片</label>
+					<img src="assets/img/attach-red.png" id="img2" width="200px" height="200px" alt="" />
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-lg-offset-1 col-lg-2 text-center">
+					<input type="file" id="up1" style="margin-left:20px;" />
+				</div>
+				<div class="col-lg-offset-1 col-lg-1 text-right">
+					<input type="file" id="up2" class="" style="margin-left:65px;" />
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-lg-3">
+					<button type="button" id="update" class="btn btn-default" style="width: 90px;">修改</button>
+				</div>
+			</div>
+		</div>
+		<script src="assets/js/jquery-2.0.3.min.js"></script>
+		<script src="assets/js/bootstrap.min.js"></script>
+		<script src="assets/js/basic.js"></script>
+		<script src="assets/qiniu/qiniu.js"></script>
+		<script src="assets/qiniu/plupload.full.min.js"></script>
+		<script src="assets/qiniu/myUploader.js"></script>
+		<script type="text/javascript">
+			var id = GetQueryString('id')
+			$(function() {
+				selects(4, 'yaxing');
+				selects(6, 'biaomian');
+				selects(3, 'danwei');
+				pinpai();
+				biaozhun(1, 'ybiaozhun');
+				biaozhun(2, 'zbiaozhun');
+				lowd();
+				qinius('up1','container1','img1')
+				qinius('up2','container2','img2')
+			})
+			//搜索栏下拉框
+			function selects(a, b) {
+				$.ajax({
+					type: "get",
+					url: base + "goods/paramsSelect?type=" + a,
+					async: true,
+					headers: {
+						"Authorization": JSON.parse(sessionStorage.getItem('userInfo')).token
+					},
+					success: function(data) {
+						var data = data.data;
+						var list = '';
+						$.each(data, function(index, obj) {
+							if(a == 3) {
+								list += '<option value="' + obj.content + '">' + obj.content + '</option>'
+							} else {
+								list += '<option value="' + obj + '">' + obj + '</option>'
+							}
+						});
+						$('#' + b).html(list);
+					}
+				});
+			}
+			//中英文标准
+			function biaozhun(a, b) {
+				$.ajax({
+					type: "get",
+					url: base + "goods/standardSelect?type=" + a,
+					async: true,
+					headers: {
+						"Authorization": JSON.parse(sessionStorage.getItem('userInfo')).token
+					},
+					success: function(data) {
+						var data = data.data;
+						var list = '';
+						$.each(data, function(index, obj) {
+							if(a == 1) {
+								$.each(obj, function(i,items) {
+									list += '<option value="' + index + '" data_level="'+items.level+'">' + index + '</option>'
+								});
+							} else {
+								list += '<option value="' + obj.CHstandard + '" data_category="'+ obj.category +'" data_variety="'+obj.variety+'">' + obj.CHstandard + '</option>'
+							}
+						});
+						$('#' + b).html(list);
+					}
+				});
+			}
+			//品牌列表
+			function pinpai(){
+				$.ajax({
+					type:"get",
+					url:base + "supplier/brandList",
+					async:true,
+					headers: {
+						"Authorization": JSON.parse(sessionStorage.getItem('userInfo')).token
+					},
+					success:function(data){
+						var data = data.data;
+						var list = '';
+						$.each(data, function(index,obj) {
+							list +='<option value="'+obj.id+'">'+obj.brand+'</option>'
+						});
+						$('#pinpai').html(list);
+					}
+				});
+			}
+			//联动
+			$('#ybiaozhun').change(function() {
+				console.log($(this).find('option:selected').attr('data_level'));
+				$('#jibie').val($(this).find('option:selected').attr('data_level'))
+			});
+			//数据加载
+			function lowd() {
+				$.ajax({
+					type: "get",
+					url: base + "goods/goodsDetail?gId=" + id,
+					async: true,
+					headers: {
+						"Authorization": JSON.parse(sessionStorage.getItem('userInfo')).token
+					},
+					success: function(data) {
+						var data = data.data;
+						$('#pinpai').val(data.goods_brands)
+						$('#qianzhong').val(data.goods_thousandweight);
+						$('#ybiaozhun').val(data.goods_ENstandard);
+						$('#zbiaozhun').val(data.goods_CHstandard);
+						$('#luowen').val(data.goods_threadaccuracy);
+						$('#yaxing').val(data.goods_toothshape);
+						$('#jixie').val(data.goods_mechanicalproperties);
+						$('#guige').val(data.goods_norm);
+						$('#gongcha').val(data.goods_tolerance);
+						$('#biaomian').val(data.goods_surfacetreat);
+						$('#yaju').val(data.goods_toothdistance);
+						$('#jibie').val(data.goods_level);
+						$('#caizhi').val(data.goods_materials);
+						$('#jijia').val(data.goods_oprice);
+						$('#xiaobao').val(data.goods_smallpackagenum);
+						$('#dabao').val(data.goods_bigpackeagenum);
+						$('#danwei').val(data.goods_unit)
+						$('#img1').attr('src', data.goods_timg);
+						$('#img2').attr('src', data.goods_bimg);
+					}
+				});
+			}
+			//点击修改
+			$('#update').click(function() {
+				var data = JSON.stringify({
+					gId: id,
+					goods_brands: $('#pinpai').val(),
+					goods_category: $('#zbiaozhun>option:selected').attr('data_category'),
+					goods_variety:$('#zbiaozhun>option:selected').attr('data_variety'),
+					goods_CHstandard:$('#zbiaozhun').val(),
+					goods_ENstandard:$('#ybiaozhun').val(),
+					goods_toothshape:$('#yaxing').val(),
+					goods_norm:$('#guige').val(),
+					goods_surfacetreat:$('#biaomian').val(),
+					goods_level:$('#jibie').val(),
+					goods_oprice:$('#jijia').val(),
+					goods_smallpackagenum:$('#xiaobao').val(),
+					goods_bigpackeagenum:$('#dabao').val(),
+					goods_unit:$('#danwei').val(),
+					goods_timg:$('#img1').attr('src'),
+					goods_bimg:$('#img2').attr('src'),
+					goods_thousandweight:$('#qianzhong').val(),
+					goods_threadaccuracy:$('#luowen').val(),
+					goods_mechanicalproperties:$('#jixie').val(),
+					goods_tolerance:$('#gongcha').val(),
+					goods_toothdistance:$('#yaju').val(),
+					goods_materials:$('#caizhi').val(),
+				})
+				$.ajax({
+					type: "post",
+					url: base + "goods/saveGoods",
+					contentType: 'application/json',
+					data: data,
+					headers: {
+						"Authorization": JSON.parse(sessionStorage.getItem('userInfo')).token
+					},
+					success: function(data) {
+						if(data.code == 0){
+							if(data.data == true){
+								alert('meng')
+							}
+						}
+					}
+				});
+			})
+		</script>
+	</body>
+
+</html>

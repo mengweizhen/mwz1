@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title>销售管理</title>
+		<link rel="shortcut icon" href="assets/img/favicon.png" type="image/x-icon">
+		<link rel="stylesheet" href="assets/css/bootstrap.min.css" />
+		<link rel="stylesheet" type="text/css" href="assets/css/public.css" />
+		<style>
+			.demo_title {
+				margin-bottom: 10px;
+			}
+			
+			.title_titles {
+				border: 1px solid #DDDDDD;
+			}
+			
+			.export {
+				float: left;
+				margin-right: 10px;
+				width: auto;
+				padding: 0px 5px;
+			}
+			
+			.btn-default {
+				width: 80px;
+			}
+			
+			.tb {
+				height: 40px;
+				line-height: 40px;
+			}
+			
+			.inp {
+				width: 100px;
+				height: 25px;
+				line-height: 25px;
+				border-radius: 4px;
+				border-width: 1px;
+				outline: none;
+				padding: 0px 5px;
+			}
+			
+			select{
+				width: 200px!important;
+			}
+			#address{
+				display: inline-block;
+				width: 350px;
+			}
+		</style>
+	</head>
+
+	<body>
+		<div class="demo_title">销售管理/销售单</div>
+		<div class="title_titles m-lf">
+			<form class="form-inline">
+				<div class="form-group" style="margin-right: 20px;">
+					<label for="">客户</label>
+					<select class="form-control" id="">
+					</select>
+				</div>
+				<div class="form-group" style="margin-right: 20px;">
+					<label for="">地址：</label>
+					<span id="address">浙江省杭州市西湖区竞舟路220号金成花园7幢1单元101</span>
+				</div>
+				<div class="form-group" style="margin-right: 20px;">
+					<label for="">折扣：</label>
+					<span id="address">浙江省杭州市西湖区竞舟路220号金成花园7幢1单元101</span>
+				</div>
+				<div class="form-group">
+					<label for="">备注：</label>
+					<input id="address" class="form-control"/>
+				</div>
+				<div class="form-group" style="float: right;margin-right: 20px;">
+					<span>订单日期:</span>
+					<span id="times"></span>
+				</div>
+			</form>
+		</div>
+		<div class="tableBox">
+			<table class="table table-bordered table-hover text-center">
+				<tr>
+					<td>商品编号</td>
+					<td>商品信息</td>
+					<td>规格</td>
+					<td>折扣</td>
+					<td>基价</td>
+					<td>折后单价</td>
+					<td>折后金额</td>
+					<td>数量</td>
+					<td>辅助数量1</td>
+					<td>辅助数量2</td>
+					<td>备注</td>
+				</tr>
+				<tbody id="tbody">
+					<tr id="tr" style="height: 40px;">
+						<td></td>
+						<td></td>
+						<td></td>
+						<td></td>
+						<td></td>
+						<td></td>
+						<td></td>
+						<td></td>
+						<td></td>
+						<td>
+							<!--<button type="button" id="del()" class="btn btn-default">删除</button>-->
+						</td>
+					</tr>
+				</tbody>
+			</table>
+			<div class="tb clearFix">
+				<div style="float: left;">
+					<span>订单编号：</span>
+					<span id="bianhao" style="margin-right: 100px;"></span>
+					<span>制单人：</span>
+					<input type="text" class="inp" id="zhidan" />
+				</div>
+				<div style="float: right;">
+					<span>合计金额：</span>
+					<span>￥<span id="moneys">0</span></span>
+				</div>
+				<div style="float: right;margin-right: 40px;">
+					<span>优惠：</span>
+					<span id="youMoneys">0</span>
+					<span>元</span>
+				</div>
+				<div style="float: right;margin-right: 40px;">
+					<span>延迟付款：</span>
+					<input type="text" class="inp" id="dely" />
+					<span>天</span>
+				</div>
+			</div>
+			<div style="text-align: right;">
+				<button class="btn btn-default" id="adds" style="width: 80px;">提交</button>
+			</div>
+		</div>
+		<script src="assets/js/jquery-2.0.3.min.js"></script>
+		<script src="assets/js/bootstrap.min.js"></script>
+		<script src="assets/js/paging.js"></script>
+		<script src="assets/js/basic.js"></script>
+		<script>
+			
+		</script>
+	</body>
+
+</html>

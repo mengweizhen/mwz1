@@ -1,0 +1,90 @@
+* {
+	color: #737373;
+}
+.clearFix:after{
+	height: 0px;
+	content:'';
+	overflow: hidden;
+	clear: both;
+	display: block;	
+}
+a{
+	text-decoration: none;
+	color: #737373;
+}
+a:hover{
+	text-decoration: none;
+	color: #737373;
+}
+.demo_title {
+	padding: 0px 10px;
+	height: 40px;
+	line-height: 40px;
+	border-bottom: 1px solid #ddd;
+}
+
+.title_titles {
+	height: 50px;
+	line-height: 50px;
+	padding-left: 10px;
+	border-bottom: 1px solid #ddd;
+}
+
+.selectpicker {
+	border-radius: 3px;
+	margin-right: 20px;
+	height: 25px;
+	line-height: 25px;
+	width: 100px;
+}
+
+.form-control {
+	height: 30px!important;
+	margin-right: 20px;
+	vertical-align: top;
+	margin-bottom: 5px;
+}
+
+.btn {
+	outline: none!important;
+	height: 30px;
+	/*width: 60px;*/
+	padding: 0px 10px;
+	margin-bottom: 3px;
+}
+
+.table {
+	margin-bottom: 10px;
+}
+
+.table>tbody+tbody {
+	border-top: none;
+}
+
+.tableBox {
+	padding: 10px;
+}
+
+.export {
+	width: 100px;
+	height: 40px;
+	line-height: 40px;
+	text-align: center;
+	border: 1px solid #DDDDDD;
+	border-radius: 5px;
+}
+.p-lf{
+	padding: 0px 10px;
+}
+.m-lf{
+	margin: 0px 10px;
+}
+.m-b_7{
+	margin-bottom: 7px;
+}
+.m-b1{
+	margin-bottom: 10px;
+}
+td{
+	line-height: 25px!important;
+}

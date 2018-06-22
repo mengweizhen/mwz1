@@ -1,0 +1,436 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title>库存管理</title>
+		<link rel="shortcut icon" href="assets/img/favicon.png" type="image/x-icon">
+		<link rel="stylesheet" href="assets/css/bootstrap.min.css" />
+		<link rel="stylesheet" type="text/css" href="assets/css/public.css" />
+		<style>
+			.row {
+				height: 40px;
+				/*line-height: 40px;*/
+			}
+			
+			#diao .modal-dialog,
+			#fen .modal-dialog {
+				width: 900px;
+			}
+			
+			#fenAlert .modal-dialog,
+			#diaoAlert .modal-dialog {
+				width: 400px;
+			}
+		</style>
+	</head>
+
+	<body>
+		<div class="demo_title">仓库管理/库存管理</div>
+		<div class="title_titles"></div>
+		<div class="tableBox">
+			<table class="table table-bordered table-hover text-center">
+				<tr>
+					<td>商品编号</td>
+					<td>商品信息</td>
+					<td>规格</td>
+					<td>仓库</td>
+					<td>货架号</td>
+					<td>数量</td>
+					<td>辅助数量1</td>
+					<td>辅助数量2</td>
+					<td>操作</td>
+				</tr>
+				<tbody id="tbody">
+					<tr>
+						<td></td>
+						<td></td>
+						<td></td>
+						<td></td>
+						<td></td>
+						<td></td>
+						<td></td>
+						<td></td>
+						<td><button type="button" class="btn btn-default" data-toggle="modal" data-target="#fen">分配货架</button></td>
+					</tr>
+					<tr>
+						<td></td>
+						<td></td>
+						<td></td>
+						<td></td>
+						<td></td>
+						<td></td>
+						<td></td>
+						<td></td>
+						<td>
+							<button type="button" class="btn btn-default" data-toggle="modal" data-target="#diao" style="margin-right: 30px;">货架调动</button>
+							<button type="button" class="btn btn-default" data-toggle="modal" data-target="#hu">包装互换</button>
+						</td>
+					</tr>
+				</tbody>
+			</table>
+			<div class="export">导出</div>
+		</div>
+		<!--分配货架弹窗-->
+		<div class="modal fade" id="fen" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+			<div class="modal-dialog">
+				<div class="modal-content">
+					<div class="modal-header">
+						<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+						<form class="form-inline">
+							<div class="form-group">
+								<label for="">货架号</label>
+								<input class="form-control" id="huoji" type="text" autocomplete="off" />
+							</div>
+							<button type="button" id="search" class="btn btn-default">搜索</button>
+						</form>
+					</div>
+					<div class="modal-body">
+						<table class="table table-bordered table-hover text-center">
+							<tr>
+								<td>货架号</td>
+								<td>操作</td>
+							</tr>
+							<tbody id="tbody1">
+								<tr>
+									<td></td>
+									<td><button type="button" class="btn btn-default" data-target="#fenAlert" data-toggle="modal">绑定</button></td>
+								</tr>
+							</tbody>
+						</table>
+					</div>
+				</div>
+			</div>
+		</div>
+		<!--货架调动-->
+		<div class="modal fade" id="diao" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+			<div class="modal-dialog">
+				<div class="modal-content">
+					<div class="modal-header">
+						<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+						<form class="form-inline">
+							<div class="form-group">
+								<label for="">货架号</label>
+								<input class="form-control" id="huoji" type="text" autocomplete="off" />
+							</div>
+							<button type="button" id="search1" class="btn btn-default">搜索</button>
+						</form>
+					</div>
+					<div class="modal-body">
+						<table class="table table-bordered table-hover text-center">
+							<tr>
+								<td>货架号</td>
+								<td>操作</td>
+							</tr>
+							<tbody id="tbody2">
+								<tr>
+									<td></td>
+									<td><button type="button" class="btn btn-default" data-target="#diaoAlert" data-toggle="modal">绑定</button></td>
+								</tr>
+							</tbody>
+						</table>
+					</div>
+				</div>
+			</div>
+		</div>
+		<!--包装互换调动-->
+		<div class="modal fade" id="hu" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+			<div class="modal-dialog">
+				<div class="modal-content">
+					<div class="modal-body">
+						<div class="row" style="margin-top: 15px;">
+							<label class="col-lg-2 col-lg-offset-1" style="margin-top: 5px;">辅助数量1</label>
+							<div class="col-lg-3">
+								<input type="text" id="fuzhu1" class="form-control" />
+							</div>
+							<label class="col-lg-2" style="margin-top: 5px;">辅助数量2</label>
+							<div class="col-lg-3">
+								<input type="text" id="fuzhu2" class="form-control" />
+							</div>
+						</div>
+						<div class="row" style="line-height: 40px;">
+							<span class="col-lg-2 col-lg-offset-1">提示语：</span>
+							<span>输入需要转换的数量</span>
+						</div>
+						<div class="row" style="line-height: 40px;">
+							<div class="col-lg-2 col-lg-offset-1">
+								<button type="button" class="btn btn-default" onclick="huHuan()">包装互换</button>
+							</div>
+							<div class="col-lg-4 col-lg-offset-1">
+								<button type="button" class="btn btn-default">保存并打印条码</button>
+							</div>
+							<div class="col-lg-2 col-lg-offset-1">
+								<button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<!--分配货架选择数量-->
+		<div class="modal fade" id="fenAlert" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+			<div class="modal-dialog">
+				<div class="modal-content">
+					<div class="modal-header">
+						<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+						<div>选择数量</div>
+					</div>
+					<div class="modal-body">
+						<div class="row">
+							<label class="col-lg-1 col-lg-offset-1 text-center" style="margin-top: 5px;">盒</label>
+							<div class="col-lg-4">
+								<input type="text" id="he" class="form-control" />
+							</div>
+							<label class="col-lg-1 text-center" style="margin-top: 5px;">箱</label>
+							<div class="col-lg-4">
+								<input type="text" id="xiang" class="form-control" />
+							</div>
+						</div>
+						<div class="row" style="line-height: 40px;">
+							<div class="col-lg-offset-2 col-lg-3 text-center">
+								<button type="button" class="btn btn-default" onclick="littlefen()">确认</button>
+							</div>
+							<div class="col-lg-offset-2 col-lg-3 text-center">
+								<button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<!--货架调动选择数量-->
+		<div class="modal fade" id="diaoAlert" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+			<div class="modal-dialog">
+				<div class="modal-content">
+					<div class="modal-header">
+						<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+						<div>选择数量</div>
+					</div>
+					<div class="modal-body">
+						<div class="row">
+							<label class="col-lg-1 col-lg-offset-1 text-center" style="margin-top: 5px;">盒</label>
+							<div class="col-lg-4">
+								<input type="text" id="he1" class="form-control" />
+							</div>
+							<label class="col-lg-1 text-center" style="margin-top: 5px;">箱</label>
+							<div class="col-lg-4">
+								<input type="text" id="xiang1" class="form-control" />
+							</div>
+						</div>
+						<div class="row" style="line-height: 40px;">
+							<div class="col-lg-offset-2 col-lg-3 text-center">
+								<button type="button" class="btn btn-default" onclick="littleDiao()">确认</button>
+							</div>
+							<div class="col-lg-offset-2 col-lg-3 text-center">
+								<button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<script src="assets/js/jquery-2.0.3.min.js"></script>
+		<script src="assets/js/bootstrap.min.js"></script>
+		<script src="assets/js/basic.js"></script>
+		<script>
+			var id = GetQueryString('id');
+			$(function() {
+				lowd()
+			});
+
+			function lowd() {
+				$.ajax({
+					type: "get",
+					url: base + "warehouse/stock/info?id=" + id,
+					async: true,
+					headers: {
+						"Authorization": JSON.parse(sessionStorage.getItem('userInfo')).token
+					},
+					success: function(data) {
+						var data = data.data;
+						var list = '';
+						$.each(data, function(index, obj) {
+							console.log(obj.gsId);
+							if(obj.gsId == undefined) {
+								list += '<tr>' +
+									'<td>' + obj.goods_number + '</td>' +
+									'<td>' + obj.goodsInfo + '</td>' +
+									'<td>' + obj.goods_norm + '</td>' +
+									'<td>' + obj.warehouse + '</td>' +
+									'<td></td>' +
+									'<td>' + obj.num + '</td>' +
+									'<td>' + obj.assistUnit1 + '</td>' +
+									'<td>' + obj.assistUnit2 + '</td>' +
+									'<td><button type="button" class="btn btn-default" onclick="fenpei(' + obj.gId + ')" data-toggle="modal" data-target="#fen">分配货架</button></td>' +
+									'</tr>'
+							} else {
+								list += '<tr>' +
+									'<td>' + obj.goods_number + '</td>' +
+									'<td>' + obj.goodsInfo + '</td>' +
+									'<td>' + obj.goods_norm + '</td>' +
+									'<td>' + obj.warehouse + '</td>' +
+									'<td>' + obj.number + '</td>' +
+									'<td>' + obj.num + '</td>' +
+									'<td>' + obj.assistUnit1 + '</td>' +
+									'<td>' + obj.assistUnit2 + '</td>' +
+									'<td>' +
+									'<button type="button" class="btn btn-default" onclick="diaodo(' + obj.gsId + ')" data-toggle="modal" data-target="#diao" style="margin-right: 30px;">货架调动</button>' +
+									'<button type="button" class="btn btn-default" onclick="baozhuang(' + obj.gsId + ')" data-toggle="modal" data-target="#hu">包装互换</button>' +
+									'</td>' +
+									'</tr>'
+							}
+						});
+						$('#tbody').html(list);
+					}
+				});
+			}
+			//分配货架数据渲染
+			function fenpei(b) {
+				$('#fen').attr('data_gId', b)
+				lowd1('')
+			}
+			$('#search').click(function() {
+				lowd1($('#huoji').val())
+			})
+
+			function lowd1(a) {
+				$.ajax({
+					type: "get",
+					url: base + "warehouse/shelves/list?wId=" + $('.selectpicker1', parent.document).val() + (a == '' ? '' : "&number=" + a),
+					async: true,
+					headers: {
+						"Authorization": JSON.parse(sessionStorage.getItem('userInfo')).token
+					},
+					success: function(data) {
+						var data = data.data;
+						var list = '';
+						$.each(data, function(index, obj) {
+							list += '<tr>' +
+								'<td>' + obj.number + '</td>' +
+								'<td><button type="button" class="btn btn-default" onclick="fenpei2(' + obj.id + ',' + $('#fen').attr('data_gId') + ')" data-target="#fenAlert" data-toggle="modal">绑定</button></td>' +
+								'</tr>'
+						});
+						$('#tbody1').html(list);
+					}
+				});
+			}
+			//分配货架小弹窗
+			function fenpei2(a, b) {
+				$('#fenAlert').attr('data_sId', a);
+				$('#fenAlert').attr('data_gId', b);
+			}
+			//分配货架小弹窗确认
+			function littlefen() {
+				if($('#he').val() == '' || $('#xiang').val() == '') {
+					alert('请输入数量');
+				} else {
+					$.ajax({
+						type: "get",
+						url: base + "warehouse/stock/allot?sId=" + $('#fenAlert').attr('data_sId') + "&gId=" + $('#fenAlert').attr('data_gId') + "&wId=" + $('.selectpicker1', parent.document).val() + "&unit1=" + $('#he').val() + "&unit2=" + $('#xiang').val(),
+						async: true,
+						headers: {
+							"Authorization": JSON.parse(sessionStorage.getItem('userInfo')).token
+						},
+						success: function(data) {
+							if(data.code == 0) {
+								if(data.data == true) {
+									location.reload();
+								}
+							} else {
+								alert(data.errMsg);
+							}
+						}
+					});
+				}
+			}
+			//货架调动数据渲染
+			function diaodo(a) {
+				$('#diao').attr('data_gsId', a);
+				lowd2('');
+			};
+			$('#search1').click(function() {
+				lowd2($('#huoji').val())
+			});
+
+			function lowd2(a) {
+				$.ajax({
+					type: "get",
+					url: base + "warehouse/shelves/list?wId=" + $('.selectpicker1', parent.document).val() + (a == '' ? '' : "&number=" + a),
+					async: true,
+					headers: {
+						"Authorization": JSON.parse(sessionStorage.getItem('userInfo')).token
+					},
+					success: function(data) {
+						var data = data.data;
+						var list = '';
+						$.each(data, function(index, obj) {
+							list += '<tr>' +
+								'<td>' + obj.number + '</td>' +
+								'<td><button type="button" class="btn btn-default" onclick="diaodo2(' + obj.id + ',' + $('#diao').attr('data_gsId') + ')" data-target="#diaoAlert" data-toggle="modal">绑定</button></td>' +
+								'</tr>'
+						});
+						$('#tbody2').html(list);
+					}
+				});
+			}
+			//货架调动小弹窗
+			function diaodo2(a, b) {
+				$('#diaoAlert').attr('data_sId', a);
+				$('#diaoAlert').attr('data_gsId', b);
+			}
+			//货架调动小弹窗确认
+			function littleDiao() {
+				if($('#he1').val() == '' || $('#xiang1').val() == '') {
+					alert('请输入数量');
+				} else {
+					$.ajax({
+						type: "get",
+						url: base + "warehouse/stock/shift?sId=" + $('#diaoAlert').attr('data_sId') + "&gsId=" + $('#diaoAlert').attr('data_gsId') + "&unit1=" + $('#he1').val() + "&unit2=" + $('#xiang1').val(),
+						async: true,
+						headers: {
+							"Authorization": JSON.parse(sessionStorage.getItem('userInfo')).token
+						},
+						success: function(data) {
+							if(data.code == 0) {
+								if(data.data == true) {
+									location.reload();
+								}
+							} else {
+								alert(data.errMsg);
+							}
+						}
+					});
+				}
+			}
+			//包装互换
+			function baozhuang(a) {
+				$('#hu').attr('data_gsId', a)
+			}
+
+			function huHuan() {
+				if($('#fuzhu1').val() == '' || $('#fuzhu2').val() == '') {
+					alert('请输入数量');
+				} else {
+					$.ajax({
+						type: "get",
+						url: base + "warehouse/stock/swap?gsId=" + $('#hu').attr('data_gsId') + "&unit1=" + $('#fuzhu1').val() + "&unit2=" + $('#fuzhu2').val(),
+						async: true,
+						headers: {
+							"Authorization": JSON.parse(sessionStorage.getItem('userInfo')).token
+						},
+						success: function(data) {
+							if(data.code == 0) {
+								if(data.data == true) {
+									location.reload();
+								}
+							} else {
+								alert(data.errMsg);
+							}
+						}
+					});
+				}
+			}
+		</script>
+	</body>
+
+</html>

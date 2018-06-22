@@ -1,0 +1,340 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title>库存管理</title>
+		<link rel="shortcut icon" href="assets/img/favicon.png" type="image/x-icon">
+		<link rel="stylesheet" href="assets/css/bootstrap.min.css" />
+		<link rel="stylesheet" type="text/css" href="assets/css/public.css" />
+		<style>
+			.demo_title {
+				margin-bottom: 10px;
+			}
+			
+			.title_titles {
+				border: 1px solid #DDDDDD;
+			}
+			
+			.export {
+				float: left;
+				margin-right: 10px;
+				width: auto;
+				padding: 0px 5px;
+			}
+			
+			.btn-default {
+				padding: 0px 10px;
+			}
+			
+			.tb {
+				height: 40px;
+				line-height: 40px;
+			}
+			
+			.modal-dialog {
+				width: 900px;
+			}
+		</style>
+	</head>
+
+	<body>
+		<div class="demo_title">仓库管理/报单管理/填写入库单</div>
+		<div class="title_titles m-lf">
+			<form class="form-inline">
+				<div class="form-group">
+					<label for="">备注</label>
+					<input type="text" id="remarks" class="form-control" style="width: 500px;margin-right: 500px;" />
+				</div>
+				<div class="form-group">
+					<button type="button" onclick="putIn()" class="btn btn-default" data-toggle="modal" data-target="#add" style="margin-right: 100px;">导入采购单</button>
+				</div>
+				<div class="form-group">
+					<span>订单日期:</span>
+					<span id="times">2018-04-16</span>
+				</div>
+			</form>
+		</div>
+		<div class="tableBox">
+			<table class="table table-bordered table-hover text-center">
+				<tr>
+					<td>商品编号</td>
+					<td>商品信息</td>
+					<td>规格</td>
+					<td>数量(单位)</td>
+					<td>辅助单位1</td>
+					<td>辅助单位2</td>
+					<td>金额</td>
+					<td>操作</td>
+				</tr>
+				<tbody id="tbody">
+					<tr style="height: 40px;">
+						<td></td>
+						<td></td>
+						<td></td>
+						<td></td>
+						<td></td>
+						<td></td>
+						<td></td>
+						<td></td>
+					</tr>
+				</tbody>
+			</table>
+			<div class="tb clearFix">
+				<div style="float: left;">
+					<span>订单编号：</span>
+					<span id="orderb" style="margin-right: 100px;">mdlsakmdklsamdkla</span>
+					<span>制单人：</span>
+					<span id="zhipeople">孟威震</span>
+				</div>
+				<div style="float: right;">
+					<span>合计金额：</span>
+					<span>￥<span id="moneys">2838.27</span></span>
+				</div>
+			</div>
+			<div style="text-align: right;">
+				<button class="btn btn-default" onclick="addGoods()">保存</button>
+				<button class="btn btn-default">打印</button>
+			</div>
+		</div>
+		<!--弹窗-->
+		<div class="modal fade" id="add" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+			<div class="modal-dialog">
+				<div class="modal-content">
+					<div class="modal-header">
+						<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+						<h4 class="modal-title" id="myModalLabel">订单选择</h4>
+					</div>
+					<div class="modal-body">
+						<table id="tabel1" class="table table-bordered table-hover text-center">
+							<tr>
+								<td>订单编号</td>
+								<td>日期</td>
+								<td>制单人</td>
+								<td>备注</td>
+							</tr>
+							<tbody id="tbody1">
+								<tr>
+									<td></td>
+									<td></td>
+									<td></td>
+									<td></td>
+								</tr>
+							</tbody>
+						</table>
+						<table id="tabel2" class="table table-bordered table-hover text-center">
+							<tr>
+								<td><input id="checkAll" type="checkbox" /></td>
+								<td>订单编号</td>
+								<td>商品信息</td>
+								<td>规格</td>
+								<td>基价</td>
+								<td>数量</td>
+								<td>辅助数量1</td>
+								<td>辅助数量2</td>
+								<td>单位</td>
+								<td>折后单价</td>
+								<td>折后金额</td>
+								<td>采购折扣</td>
+							</tr>
+							<tbody id="tbody2">
+								<tr>
+									<td><input type="checkbox" /></td>
+									<td></td>
+									<td></td>
+									<td></td>
+									<td></td>
+									<td></td>
+									<td></td>
+									<td></td>
+									<td></td>
+									<td></td>
+									<td></td>
+									<td></td>
+								</tr>
+							</tbody>
+						</table>
+						<div class="row">
+							<div class="col-lg-2">
+								<button type="button" onclick="ok(this)" class="btn btn-default">确认</button>
+								<button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<script src="assets/js/jquery-2.0.3.min.js"></script>
+		<script src="assets/js/bootstrap.min.js"></script>
+		<script src="assets/js/paging.js"></script>
+		<script src="assets/js/basic.js"></script>
+		<script>
+			//采购单列表
+			function putIn() {
+				$.ajax({
+					type: "get",
+					url: base + "/warehouse/declaration/purchaseOrderList?wId=" + $('.selectpicker1', parent.document).val(),
+					async: true,
+					success: function(data) {
+						var data = data.data;
+						var list = '';
+						$.each(data, function(index, obj) {
+							list += '<tr class="trc" data_id="' + obj.id + '" data_order="' + obj.ordernum + '">' +
+								'<td>' + obj.ordernum + '</td>' +
+								'<td>' + timetrans(obj.createtime) + '</td>' +
+								'<td>' + obj.ordermaker + '</td>' +
+								'<td>' + obj.remark + '</td>' +
+								'</tr>'
+						});
+						$('#tbody1').html(list);
+						$('.trc').click(function() {
+							goodsList($(this).attr('data_id'), JSON.stringify(data[$(this).index()]))
+						});
+						$('.trc').eq(0).trigger('click');
+					}
+				});
+			};
+			//采购单商品列表
+			function goodsList(a, b) {
+				$.ajax({
+					type: "get",
+					url: base + "/warehouse/declaration/purchaseOrderInfo?id=" + a,
+					async: true,
+					success: function(data) {
+						var data = data.data;
+						var list = '';
+						$.each(data, function(index, obj) {
+							list += '<tr class="geGoods" data_id="' + obj.gId + '">' +
+								'<td><input class="checks" type="checkbox" /></td>' +
+								'<td class="goodsnumber">' + obj.goodsnumber + '</td>' +
+								'<td class="goodsInfo">' + obj.goodsInfo + '</td>' +
+								'<td class="norm">' + obj.norm + '</td>' +
+								'<td class="price">' + obj.price + '</td>' +
+								'<td class="num">' + obj.num + '</td>' +
+								'<td class="aidunitf">' + obj.aidunitf + '</td>' +
+								'<td class="aidunits">' + obj.aidunits + '</td>' +
+								'<td class="unit">' + obj.unit + '</td>' +
+								'<td class="discunitp">' + obj.discunitp + '</td>' +
+								'<td class="discunitm">' + obj.discunitm + '</td>' +
+								'<td class="discount">' + obj.discount + '</td>' +
+								'</tr>'
+						});
+						$('#tbody2').html(list);
+						$('#tbody').attr({
+							'data_data': JSON.stringify(data),
+							'data_dataP': b
+						});
+					}
+				});
+			}
+			//选中代码
+			$('#checkAll').click(function() {
+				if($('#checkAll').is(':checked')) {
+					$('.checks').attr('checked', true);
+				} else {
+					$('.checks').attr('checked', false);
+				}
+			})
+			//添加列表
+			function ok(a) {
+				//勾选位置
+				var indexs = [];
+				if($('.checks').is(':checked')) {
+					$(a).attr('data-dismiss', 'modal');
+					$('.checks').each(function(index, obj) {
+						if($(obj).is(':checked')) {
+							console.log($(this).parents('.geGoods').index())
+							indexs.push($(this).parents('.geGoods').index());
+						}
+					});
+				} else {
+					$(a).attr('data-dismiss', '');
+				};
+				//获取需要数据
+				var datas = []
+				var data = JSON.parse($('#tbody').attr('data_data'));
+				$.each(indexs, function(index, obj) {
+					datas.push(data[obj])
+				});
+				$('#tbody').attr('data_data', JSON.stringify(datas));
+				//渲染数据
+				var list = '';
+				var money = 0;
+				$.each(datas, function(index, obj) {
+					money += parseFloat(obj.discunitm);
+					list += '<tr class="tr">' +
+						'<td>' + obj.goodsnumber + '</td>' +
+						'<td>' + obj.goodsInfo + '</td>' +
+						'<td>' + obj.norm + '</td>' +
+						'<td>' + obj.num + '</td>' +
+						'<td>' + obj.aidunitf + '</td>' +
+						'<td>' + obj.aidunits + '</td>' +
+						'<td class="money">' + obj.discunitm + '</td>' +
+						'<td>' +
+						'<button type="button" onclick="del(this)" class="btn btn-default">删除</button>' +
+						'</td>' +
+						'</tr>'
+				});
+				$('#tbody').html(list);
+				//渲染外部数据
+				var datap = JSON.parse($('#tbody').attr('data_dataP'));
+				$('#remarks').val(datap.remark);
+				$('#times').text(timetrans(datap.createtime));
+				$('#orderb').text(datap.ordernum);
+				$('#zhipeople').text(datap.ordermaker);
+				$('#moneys').text(money);
+			}
+			//添加商品
+			function addGoods() {
+				if($('#tbody').children('.tr').html() != undefined) {
+					var dataP = JSON.parse($('#tbody').attr('data_dataP'));
+					var data = JSON.parse($('#tbody').attr('data_data'));
+					//					var totalmoney = 0;
+					//					$.each(data, function(index, obj) {
+					//						console.log(parseFloat(obj.discunitm))
+					//						totalmoney += parseFloat(obj.discunitm);
+					//					});
+					var totalmoney = parseFloat($('#moneys').text());
+					var datas = {
+						wId: $('.selectpicker1', parent.document).val(),
+						ordernum: dataP.ordernum,
+						preparedby: dataP.ordermaker,
+						totalmoney: totalmoney.toFixed(3),
+						type: 3,
+						goodsList: data,
+					}
+					var data = JSON.stringify(datas);
+					$.ajax({
+						type: "post",
+						url: base + "/warehouse/declaration/add",
+						async: true,
+						contentType: 'application/json',
+						data: data,
+						success: function(data) {
+							if(data.code == 0){
+								if(data.data == true){
+									location.reload();
+								}
+							}
+						}
+					});
+				} else {
+					alert('不能为空');
+				};
+			}
+			//删除
+			function del(a) {
+				var data = JSON.parse($('#tbody').attr('data_data'));
+				data.splice($(a).parents('tr').index(),1);
+				$('#tbody').attr('data_data', JSON.stringify(data));
+				$(a).parents('tr').remove();
+				var money = 0;
+				$('.money').each(function(index, obj) {
+					money += parseFloat($(this).text());
+				})
+				$('#moneys').text(money);
+			}
+		</script>
+	</body>
+
+</html>

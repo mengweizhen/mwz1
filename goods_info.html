@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title>商品管理</title>
+		<link rel="shortcut icon" href="assets/img/favicon.png" type="image/x-icon">
+		<link rel="stylesheet" href="assets/css/bootstrap.min.css" />
+		<link rel="stylesheet" type="text/css" href="assets/css/public.css" />
+		<link rel="stylesheet" href="assets/css/paging.css" />
+		<style>
+			.export {
+				display: inline-block;
+			}
+		</style>
+	</head>
+
+	<body>
+		<div class="demo_title">商品管理/商品信息</div>
+		<div class="title_titles">
+			<form class="form-inline">
+				<div class="form-group">
+					<select class="selectpicker" id="pinzhong">
+						<option value="">品种</option>
+					</select>
+				</div>
+				<div class="form-group">
+					<select class="selectpicker" id="jibie">
+						<option value="">级别</option>
+					</select>
+				</div>
+				<div class="form-group">
+					<select class="selectpicker" id="biaomian">
+						<option value="">表面处理</option>
+					</select>
+				</div>
+				<div class="form-group">
+					<select class="selectpicker" id="yaxing">
+						<option value="">牙形</option>
+					</select>
+				</div>
+				<div class="form-group">
+					<select class="selectpicker" id="pinpai">
+						<option value="">品牌</option>
+					</select>
+				</div>
+				<div class="form-group">
+					<input class="form-control" id="condition" type="text" placeholder="请输入搜索条件" />
+				</div>
+				<button type="button" id="search" class="btn btn-default">搜索</button>
+			</form>
+		</div>
+		<div class="tableBox">
+			<table class="table table-bordered table-hover text-center">
+				<tr>
+					<td><input type="checkbox" id="checkAll" /></td>
+					<td>商品编号</td>
+					<td>商品信息</td>
+					<td>规格</td>
+					<td>基价</td>
+					<td>操作</td>
+				</tr>
+				<tbody id="tbody">
+					<tr>
+						<td><input type="checkbox" /></td>
+						<td></td>
+						<td></td>
+						<td></td>
+						<td></td>
+						<td>
+							<a href="goods_editor.html" class="btn btn-default" style="line-height: 28px;">编辑</a>
+							<button type="button" class="btn btn-default">删除</button>
+						</td>
+					</tr>
+				</tbody>
+			</table>
+			<span class="export"><a href="storehouse_customs_in.html">添加</a></span>
+			<span class="export"><a href="storehouse_customs_in.html">批量导入</a></span>
+			<span class="export"><a href="storehouse_customs_in.html">导出</a></span>
+			<div id="page" class="page_div"></div>
+		</div>
+		<script src="assets/js/jquery-2.0.3.min.js"></script>
+		<script src="assets/js/bootstrap.min.js"></script>
+		<script src="assets/js/paging.js"></script>
+		<script src="assets/js/basic.js"></script>
+		<script>
+			$(function() {
+				selects(2,'pinzhong');
+				selects(6,'biaomian');
+				selects(4,'yaxing');
+				selects(5,'jibie');
+				pinpai();
+				lowd(null, null, null, null, null, null);
+				page();
+			});
+			var pageNum = 1;
+			var pageSize = 12;
+			var total;
+			function lowd(a, b, c, d, e, f) {
+				var data = JSON.stringify({
+					pageNum: pageNum,
+					pageSize: pageSize,
+					keyword: a,
+					goods_surfacetreat: b,
+					goods_toothshape: c,
+					goods_brands: d,
+					goods_variety: e,
+					goods_level: f
+				})
+				$.ajax({
+					type: "post",
+					url: base + "goods/goodsList",
+					contentType: 'application/json',
+					data: data,
+					headers: {
+						"Authorization": JSON.parse(sessionStorage.getItem('userInfo')).token
+					},
+					async: false,
+					success: function(data) {
+						total = data.data.total;
+						var data = data.data.data;
+						var list = '';
+						$.each(data, function(index, obj) {
+							list += '<tr>' +
+								'<td><input type="checkbox" class="checks" /></td>' +
+								'<td>' + obj.goods_number + '</td>' +
+								'<td>' + (obj.goods_level + ' ' + obj.goods_CHstandard + ' ' + obj.goods_ENstandard + ' ' + obj.goods_toothshape + ' ' + obj.goods_brands) + '</td>' +
+								'<td>' + obj.goods_norm + '</td>' +
+								'<td>' + obj.goods_oprice + '</td>' +
+								'<td>' +
+								'<a href="goods_editor.html?id='+obj.id+'" class="btn btn-default" style="line-height: 28px;">编辑</a>' +
+								'<button type="button" class="btn btn-default">删除</button>' +
+								'</td>' +
+								'</tr>'
+						});
+						$('#tbody').html(list);
+					}
+				});
+			}
+			//搜索栏下拉框
+			function selects(a,b){
+				$.ajax({
+					type:"get",
+					url:base + "goods/paramsSelect?type="+a,
+					async:true,
+					headers: {
+						"Authorization": JSON.parse(sessionStorage.getItem('userInfo')).token
+					},
+					success:function(data){
+						var data = data.data;
+						var list ='';
+						$.each(data, function(index,obj) {
+							list+='<option value="'+obj+'">'+obj+'</option>'
+						});
+						$('#'+b).html(list);
+					}
+				});
+			}
+			//品牌列表
+			function pinpai(){
+				$.ajax({
+					type:"get",
+					url:base + "supplier/brandList",
+					async:true,
+					headers: {
+						"Authorization": JSON.parse(sessionStorage.getItem('userInfo')).token
+					},
+					success:function(data){
+						var data = data.data;
+						var list = '';
+						$.each(data, function(index,obj) {
+							list +='<option value="'+obj.id+'">'+obj.brand+'</option>'
+						});
+						$('#pinpai').html(list);
+					}
+				});
+			}
+			//搜索
+			$('#search').click(function(){
+				lowd($('#condition').val(), $('#biaomian').val(), $('#yaxing').val(), $('#jibie').val(), $('#pinzhong').val(), $('#pinpai').val());
+				page();
+			});
+			//全选中
+			$('#checkAll').click(function() {
+				if($(this).is(':checked')) {
+					$('.checks').prop('checked', true);
+				} else {
+					$('.checks').prop('checked', false);
+				}
+			})
+		</script>
+	</body>
+
+</html>

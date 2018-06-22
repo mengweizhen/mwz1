@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title>库存管理</title>
+		<link rel="shortcut icon" href="assets/img/favicon.png" type="image/x-icon">
+		<link rel="stylesheet" href="assets/css/bootstrap.min.css" />
+		<link rel="stylesheet" type="text/css" href="assets/css/public.css"/>
+		<link rel="stylesheet" href="assets/css/paging.css" />
+		<style>
+			.demo_title{
+				margin-bottom: 10px;
+			}
+			.title_titles{
+				border: 1px solid #DDDDDD;
+			}
+			.export{
+				float: left;
+				margin-right: 10px;
+				width: auto;
+				padding: 0px 10px;
+			}
+			.export>a{
+				display: inline-block;
+				width: 100%;
+				height: 100%;
+			}
+			.page_div{
+				float: right;
+			}
+		</style>
+	</head>
+
+	<body>
+		<div class="demo_title">仓库管理/报单管理</div>
+		<div class="title_titles m-lf">
+			<form class="form-inline">
+				<div class="form-group">
+					<label for="">报单编号</label>
+					<input type="text" class="form-control" />
+				</div>
+				<div class="form-group">
+					<label for="">报单类型</label>
+					<select class="selectpicker">
+						<option value="1">报损</option>
+						<option value="2">报溢</option>
+						<option value="3">入库</option>
+						<option value="5">盘点</option>
+					</select>
+				</div>
+				<div class="form-group">
+					<label for="">制单人</label>
+					<input class="form-control" id="condition" type="text" />
+				</div>
+				<div class="form-group">
+					<label for="">订单日期</label>
+					<input type="date" class="form-control" id="" value="" />
+					<span>--</span>
+					<input type="date" class="form-control" id="" value="" />
+				</div>
+				<button type="button" class="btn btn-default m-b_7">筛选</button>
+			</form>
+		</div>
+		<div class="tableBox clearFix">
+			<table class="table table-bordered table-hover text-center">
+				<tr>
+					<td>报单编号</td>
+					<td>时间</td>
+					<td>报单类型</td>
+					<td>仓库</td>
+					<td>金额</td>
+					<td>制作人</td>
+					<td>备注</td>
+					<td>详情</td>
+				</tr>
+				<tbody id="tbody">
+					<tr>
+						<td></td>
+						<td></td>
+						<td></td>
+						<td></td>
+						<td></td>
+						<td></td>
+						<td></td>
+						<td><a href="">查看</a></td>
+					</tr>
+				</tbody>
+			</table>
+			<!--<div class="export"><a href="storehouse_customs_attaint.html">填写报损单</a></div>-->
+			<!--<div class="export"><a href="storehouse_customs_ins.html">填写报溢单</a></div>-->
+			<div class="export"><a href="storehouse_customs_in.html">填写其他入库单</a></div>
+			<div class="export"><a href="storehouse_customs_setpoint.html">填写盘点单</a></div>
+			<div id="page" class="page_div"></div>
+		</div>
+		<script src="assets/js/jquery-2.0.3.min.js"></script>
+		<script src="assets/js/bootstrap.min.js"></script>
+		<script src="assets/js/paging.js"></script>
+		<script src="assets/js/basic.js"></script>
+		<script>
+			$(function(){
+				lowd();
+				page();
+			});
+			var pageNum = 1;
+			var pageSize = 10;
+			var total;
+			function lowd(a,b,c,d,e){
+				var data = JSON.stringify({
+					company:$('.selectpicker', parent.document).val(),
+					wId:$('.selectpicker1', parent.document).val(),
+					pageNum:pageNum,
+					pageSize:pageSize,
+					ordernum:a,
+					type:b,
+					sId:c,
+					start:d,
+					end:e
+				});
+				$.ajax({
+					type:"post",
+					url:base + "/warehouse/declaration/list",
+					contentType:'application/json',
+					data:data,
+					headers: {
+						"Authorization": JSON.parse(sessionStorage.getItem('userInfo')).token
+					},
+					async:false,
+					success:function(data){
+						total = data.data.total;
+						var data = data.data.data;
+						var list = '';
+						$.each(data, function(index,obj) {
+							list +='<tr>'+
+									'<td>'+obj.ordernum+'</td>'+
+									'<td>'+timetrans(obj.createTime)+'</td>'
+									if(obj.type == 5){
+										var typeName = '盘点';
+									}else if(obj.type == 1){
+										var typeName = '报损';
+									}else if(obj.type == 2){
+										var typeName = '报溢';
+									}else if(obj.type == 3){
+										var typeName = '入库';
+									}
+							list +=	'<td>'+typeName+'</td>'+
+									'<td>'+obj.warehouse+'</td>'+
+									'<td>'+obj.totalmoney+'</td>'+
+									'<td>'+obj.preparedby+'</td>'+
+									'<td>'+(obj.remark == null?'无':obj.remark)+'</td>'+
+									'<td><a href="storehouse_customs_info.html?id='+obj.id+'" style="color:#4E96FF">查看</a></td>'+
+								'</tr>'
+						});
+						$('#tbody').html(list);
+					}
+				});
+			}
+		</script>
+	</body>
+</html>

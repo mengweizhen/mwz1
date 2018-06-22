@@ -1,0 +1,389 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title>采购管理</title>
+		<link rel="shortcut icon" href="assets/img/favicon.png" type="image/x-icon">
+		<link rel="stylesheet" href="assets/css/bootstrap.min.css" />
+		<link rel="stylesheet" type="text/css" href="assets/css/public.css" />
+		<style>
+			.demo_title {
+				margin-bottom: 10px;
+			}
+			
+			.title_titles {
+				border: 1px solid #DDDDDD;
+			}
+			
+			.export {
+				float: left;
+				margin-right: 10px;
+				width: auto;
+				padding: 0px 5px;
+			}
+			
+			.btn-default {
+				padding: 0px 10px;
+			}
+			
+			.tb {
+				height: 40px;
+				line-height: 40px;
+			}
+			
+			.modal-dialog {
+				width: 900px;
+			}
+			.inp {
+				width: 100px;
+				height: 25px;
+				line-height: 25px;
+				border-radius: 4px;
+				border-width: 1px;
+				outline: none;
+				padding: 0px 5px;
+			}
+			#pinpai {
+				width: 200px;
+				height: 30px;
+				line-height: 30px;
+				border-radius: 4px;
+				border-width: 1px;
+				box-shadow: none;
+			}
+		</style>
+	</head>
+
+	<body>
+		<div class="demo_title">采购管理/采购单</div>
+		<div class="title_titles m-lf">
+			<form class="form-inline">
+				<div class="form-group" style="margin-right: 20px;">
+					<label for="">供应商</label>
+					<select id="pinpai">
+						<option value="">供应商</option>
+					</select>
+				</div>
+				<div class="form-group" style="margin-right: 20px;">
+					<label for="">税率</label>
+					<input type="text" class="form-control" style="width: 200px;height:30px;line-height:30px;"/>
+				</div>
+				<div class="form-group">
+					<label for="">备注</label>
+					<input type="text" id="remarks" class="form-control" style="width: 500px;" />
+				</div>
+				<div class="form-group">
+					<button type="button" onclick="putIn()" class="btn btn-default" data-toggle="modal" data-target="#add" style="margin-bottom:8px;margin-right: 100px;">采购定单</button>
+				</div>
+				<div class="form-group" style="float: right;margin-right: 20px;">
+					<span>录单日期:</span>
+					<span id="times">2018-04-16</span>
+				</div>
+			</form>
+		</div>
+		<div class="tableBox">
+			<table class="table table-bordered table-hover text-center">
+				<tr>
+					<td>商品编号</td>
+					<td>商品信息</td>
+					<td>规格</td>
+					<td>基价</td>
+					<td>数量</td>
+					<td>辅助数量1</td>
+					<td>辅助数量2</td>
+					<td>单位</td>
+					<td>折后单价</td>
+					<td>折后金额</td>
+					<td>采购折扣</td>
+					<td>备注</td>
+					<td>操作</td>
+				</tr>
+				<tbody id="tbody">
+					<tr id="tr" style="height: 40px;">
+						<td></td>
+						<td></td>
+						<td></td>
+						<td></td>
+						<td></td>
+						<td></td>
+						<td></td>
+						<td></td>
+						<td></td>
+						<td></td>
+						<td></td>
+						<td></td>
+						<td>
+							<!--<button type="button" id="del()" class="btn btn-default">删除</button>-->
+						</td>
+					</tr>
+				</tbody>
+			</table>
+			<div class="tb clearFix">
+				<div style="float: left;">
+					<span>订单编号：</span>
+					<span id="bianhao" style="margin-right: 100px;"></span>
+					<span>制单人：</span>
+					<input type="text" class="inp" id="zhidan" />
+				</div>
+				<div style="float: right;">
+					<span>合计金额：</span>
+					<span>￥<span id="moneys">0</span></span>
+				</div>
+				<div style="float: right;margin-right: 40px;">
+					<span>优惠：</span>
+					<span id="youMoneys">0</span>
+					<span>元</span>
+				</div>
+				<div style="float: right;margin-right: 40px;">
+					<span>延迟付款：</span>
+					<input type="text" class="inp" id="dely" />
+					<span>天</span>
+				</div>
+			</div>
+			<div style="text-align: right;">
+				<button class="btn btn-default" style="width: 80px;">提交</button>
+			</div>
+		</div>
+		<!--弹窗-->
+		<div class="modal fade" id="add" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+			<div class="modal-dialog">
+				<div class="modal-content">
+					<div class="modal-header">
+						<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+						<h4 class="modal-title" id="myModalLabel">订单选择</h4>
+					</div>
+					<div class="modal-body">
+						<table id="tabel1" class="table table-bordered table-hover text-center">
+							<tr>
+								<td>订单编号</td>
+								<td>日期</td>
+								<td>制单人</td>
+								<td>备注</td>
+							</tr>
+							<tbody id="tbody1">
+								<tr>
+									<td></td>
+									<td></td>
+									<td></td>
+									<td></td>
+								</tr>
+							</tbody>
+						</table>
+						<table id="tabel2" class="table table-bordered table-hover text-center">
+							<tr>
+								<td><input id="checkAll" type="checkbox" /></td>
+								<td>订单编号</td>
+								<td>商品信息</td>
+								<td>规格</td>
+								<td>基价</td>
+								<td>数量</td>
+								<td>辅助数量1</td>
+								<td>辅助数量2</td>
+								<td>单位</td>
+								<td>折后单价</td>
+								<td>折后金额</td>
+								<td>采购折扣</td>
+							</tr>
+							<tbody id="tbody2">
+								<tr>
+									<td><input type="checkbox" /></td>
+									<td></td>
+									<td></td>
+									<td></td>
+									<td></td>
+									<td></td>
+									<td></td>
+									<td></td>
+									<td></td>
+									<td></td>
+									<td></td>
+									<td></td>
+								</tr>
+							</tbody>
+						</table>
+						<div class="row">
+							<div class="col-lg-2">
+								<button type="button" onclick="ok(this)" class="btn btn-default">确认</button>
+								<button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<script src="assets/js/jquery-2.0.3.min.js"></script>
+		<script src="assets/js/bootstrap.min.js"></script>
+		<script src="assets/js/paging.js"></script>
+		<script src="assets/js/basic.js"></script>
+		<script>
+			var oData = JSON.parse(sessionStorage.getItem('o_data'));
+			console.log(oData);
+			if(oData != null) {
+				$(function() {
+					pinpai();
+				})
+				//获取时间
+				var times = new Date();
+				var years = times.getFullYear().toString();
+				var mouth = (times.getMonth() + 1).toString();
+				var day = times.getDate().toString();
+				var hours = times.getHours().toString();
+				var minutes = times.getMinutes().toString();
+				var seconds = times.getSeconds().toString();
+				console.log(mouth);
+				//订单时间
+				var currentT = years + '-' + mouth + '-' + day;
+				$('#times').text(currentT)
+				//订单编号
+				var orderSection = years + mouth + day + hours + minutes + seconds;
+				var uid = '11';
+				var Uid = '';
+				var newUid;
+				if(uid.length < 6) {
+					var oindex = 6 - uid.length;
+					for(var i = 0; i < oindex; i++) {
+						Uid += 0
+					};
+					newUid = Uid + uid;
+				};
+				$('#bianhao').text('O1' + Math.floor(Math.random() * 100) + orderSection + newUid)
+				//供应商下拉框
+				function pinpai() {
+					$.ajax({
+						type: "get",
+						url: base + "purchase/getSupplierList",
+						success: function(data) {
+							var data = data.data;
+							var list = '';
+							$.each(data, function(index, obj) {
+								list += '<option value="' + obj.id + '" data_discount="' + obj.supplier_discount + '">' + obj.supplier_brand + '</option>'
+							});
+							$('#pinpai').html(list);
+							$('#pinpai').trigger('change');
+						}
+					});
+				};
+				$('#pinpai').change(function() {
+					$(this).find('option:selected').attr('data_discount');
+					var zheNum = $(this).find('option:selected').attr('data_discount');
+					var zhekou = zheNum / 100
+					var list = '';
+					$.each(orderData, function(index, obj) {
+						list += '<tr class="trs" data_id="' + obj.id + '" style="height: 40px;">' +
+							'<td>' + obj.goods_number + '</td>' +
+							'<td>' + (obj.goods_level + ' ' + obj.goods_CHstandard + ' ' + obj.goods_ENstandard + ' ' + obj.goods_toothshape + ' ' + obj.goods_brands) + '</td>' +
+							'<td>' + obj.goods_norm + '</td>' +
+							'<td class="oprice">' + obj.goods_oprice + '</td>' +
+							'<td><input type="number" oninput="inputs(this)" class="inp nums" /></td>' +
+							'<td><input type="number" class="inp fuNum1" /></td>' +
+							'<td><input type="number" class="inp fuNum2" /></td>' +
+							'<td>' + obj.goods_unit + '</td>' +
+							'<td class="zheOprice">' + (obj.goods_oprice * zhekou) + '</td>' +
+							'<td class="zheMoney"></td>' +
+							'<td>' + (zheNum + '%') + '</td>' +
+							'<td><input type="text" class="inp" /></td>' +
+							'<td>' +
+							'<button type="button" onclick="del(this)" class="btn btn-default">删除</button>' +
+							'</td>' +
+							'</tr>'
+					});
+					$('#tbody').html(list);
+				});
+				//数据加载
+				//				$.ajax({
+				//					type: "post",
+				//					url: base + "purchase/getPurchaseList",
+				//					contentType: 'application/json',
+				//					data: data,
+				//					async: true,
+				//					success: function(data) {
+				//
+				//					}
+				//				});
+				//输入数量
+				function inputs(a) {
+					console.log(a);
+					var zheOprice = parseFloat($(a).parent().siblings('.zheOprice').text());
+					$(a).parent().siblings('.zheMoney').text($(a).val() * zheOprice);
+					var money = 0;
+					var val;
+					$('.zheMoney').each(function(index, obj) {
+						$(this).text() == '' ? val = 0 : val = parseFloat($(this).text());
+						money += val;
+						console.log($(this).siblings('.oprice').text());
+					});
+					var youMoney = 0;
+					$('.nums').each(function(index, obj) {
+						if($(this).val() != '') {
+							console.log($(this).parent().siblings('.oprice').text())
+							youMoney += parseFloat($(this).parent().siblings('.oprice').text())*parseFloat($(this).val());
+						}
+					});
+					console.log(youMoney);
+					$('#moneys').text(money)
+					$('#youMoneys').text(money - youMoney);
+				};
+				//提交
+				$('#adds').click(function() {
+					var goodsList = [];
+					//提交便利
+					$('.trs').each(function(index, obj) {
+						if($(this).find('.nums').val() != '') {
+							goodsList.push({
+								"purchase_goodsid": $(this).attr('data_id'),
+								"purchase_discunitp": $(this).find('.zheOprice').text(),
+								"purchase_goodsnorm": $(this).children().eq(2).text(),
+								"purchase_aidunitf": $(this).find('.fuNum1').val() == '' ? 0 : $(this).find('.fuNum1').val(),
+								"purchase_aidunits": $(this).find('.fuNum2').val() == '' ? 0 : $(this).find('.fuNum2').val(),
+								"purchase_goodsnum": $(this).find('.nums').val(),
+								"purchase_discunitm": $(this).find('.zheMoney').text(),
+								"purchase_remark": $(this).children().eq(11).children().val()
+							})
+						}
+					})
+					console.log(goodsList);
+					console.log($('#pinpai').val());
+					console.log($('#pinpai>option:selected').text())
+					if(goodsList.length == 0 || $('#zhidan').val() == ''||$('#dely').val() == '') {
+						alert('制单人,延迟付款不能为空');
+					} else {
+						var data = JSON.stringify({
+							supplier_id: $('#pinpai').val(),
+							supplier_name: $('#pinpai>option:selected').text(),
+							ordermaker: $('#zhidan').val(),
+							delaydays:$('#dely').val(),
+							ordernum: $('#bianhao').text(),
+							recordtime: $('#times').text(),
+							totalmoney: $('#moneys').text(),
+							goodslist: goodsList
+						})
+						$.ajax({
+							type: "POST",
+							url: base + "purchase/addPruchase",
+							contentType: 'application/json',
+							data: data,
+							success: function(data) {
+								if(data.code == 0) {
+									sessionStorage.removeItem('order_data');
+									alert('添加成功');
+									location.reload();
+								}
+							}
+						});
+					}
+				})
+
+				//删除
+				function del(a) {
+					alert('me')
+					$(a).parents('tr').remove();
+				}
+			}
+			function putIn(){
+				
+			}
+		</script>
+	</body>
+
+</html>

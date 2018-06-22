@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title>库存管理</title>
+		<link rel="shortcut icon" href="assets/img/favicon.png" type="image/x-icon">
+		<link rel="stylesheet" href="assets/css/bootstrap.min.css" />
+		<link rel="stylesheet" type="text/css" href="assets/css/public.css" />
+		<style type="text/css">
+			#add tr>td:last-child {
+				width: 100px;
+			}
+		</style>
+	</head>
+
+	<body>
+		<div class="demo_title">仓库管理/人员管理</div>
+		<div class="title_titles">
+			<form class="form-inline">
+				<div class="form-group">
+					<label for="">名字</label>
+					<input class="form-control" id="name" type="text" autocomplete="off" />
+				</div>
+				<div class="form-group">
+					<label for="">电话</label>
+					<input class="form-control" id="phone" type="text" autocomplete="off" />
+				</div>
+				<button type="button" id="seach" class="btn btn-default">搜索</button>
+			</form>
+		</div>
+		<div class="tableBox">
+			<table class="table table-bordered table-hover text-center">
+				<tr>
+					<td>名字</td>
+					<td>身份证</td>
+					<td>电话</td>
+					<td>入职时间</td>
+					<td>负责仓库</td>
+				</tr>
+				<tbody id="tbody">
+					<tr>
+						<td></td>
+						<td></td>
+						<td></td>
+						<td></td>
+						<td>都是</td>
+					</tr>
+				</tbody>
+			</table>
+			<div class="export btn btn-default" data-toggle="modal" data-target="#add">添加</div>
+		</div>
+		<!--弹窗-->
+		<!--添加-->
+		<div class="modal fade" id="add" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+			<div class="modal-dialog">
+				<div class="modal-content">
+					<div class="modal-body">
+						<table class="table table-bordered table-hover text-center">
+							<tbody>
+								<tr>
+									<td>A仓</td>
+									<td><button type="button" class="btn btn-default">绑定</button></td>
+								</tr>
+								<tr>
+									<td>A仓</td>
+									<td><button type="button" class="btn btn-default">绑定</button></td>
+								</tr>
+								<tr>
+									<td>A仓</td>
+									<td><button type="button" class="btn btn-default">绑定</button></td>
+								</tr>
+								<tr>
+									<td>A仓</td>
+									<td><button type="button" class="btn btn-default">绑定</button></td>
+								</tr>
+								<tr>
+									<td>A仓</td>
+									<td><button type="button" class="btn btn-default">绑定</button></td>
+								</tr>
+							</tbody>
+						</table>
+					</div>
+				</div>
+			</div>
+		</div>
+		<script src="assets/js/jquery-2.0.3.min.js"></script>
+		<script src="assets/js/bootstrap.min.js"></script>
+		<script src="assets/js/basic.js"></script>
+		<script>
+			$(function() {
+				console.log($('.selectpicker', parent.document).val())
+				lowd(null, null);
+			})
+
+			function lowd(a, b) {
+				if(a == '') {
+					a = null;
+				};
+				if(b == '') {
+					b = null;
+				}
+				var data = JSON.stringify({
+					cId: parseInt($('.selectpicker', parent.document).val()),
+					name: a,
+					phone: b
+				})
+				$.ajax({
+					type: "post",
+					url: base + "warehouse/staff/list",
+					contentType: 'application/json',
+					data: data,
+					headers: {
+						"Authorization": JSON.parse(sessionStorage.getItem('userInfo')).token
+					},
+					async: true,
+					success: function(data) {
+						var data = data.data;
+						var list = '';
+						$.each(data, function(index, obj) {
+							list += '<tr>' +
+								'<td>' + obj.name + '</td>' +
+								'<td>' + obj.idcard + '</td>' +
+								'<td>' + obj.phone + '</td>' +
+								'<td>' + timetrans(obj.createTime) + '</td>' +
+								'<td>' + obj.warehouse + '</td>' +
+								'</tr>'
+						});
+						$('#tbody').html(list);
+					}
+				});
+			}
+			$('#seach').click(function() {
+				lowd($('#name').val(), $('#phone').val());
+			})
+		</script>
+	</body>
+
+</html>

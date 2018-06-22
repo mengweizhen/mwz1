@@ -1,0 +1,633 @@
+﻿<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="utf-8" />
+		<title>淘钉钉后台管理</title>
+		<link rel="shortcut icon" href="assets/img/favicon.png" type="image/x-icon">
+		<link href="assets/css/bootstrap.min.css" rel="stylesheet" />
+		<link href="assets/css/font-awesome.min.css" rel="stylesheet" />
+		<link href="assets/css/weather-icons.min.css" rel="stylesheet" />
+		<link id="beyond-link" href="assets/css/beyond.min.css" rel="stylesheet" type="text/css" />
+		<link href="assets/css/demo.min.css" rel="stylesheet" />
+		<link href="assets/css/typicons.min.css" rel="stylesheet" />
+		<link href="assets/css/animate.min.css" rel="stylesheet" />
+		<script src="assets/js/skins.min.js"></script>
+		<style>
+			small {
+				line-height: 30px;
+			}
+			
+			a {
+				text-decoration: none;
+				color: #333333;
+			}
+			
+			a:hover {
+				text-decoration: none;
+				color: #333333;
+			}
+			.ll{
+				font-size: 14px;
+			}
+			.nav {
+				text-align: center;
+			}
+			
+			.navbar_right {
+				height: 100%;
+				line-height: 45px;
+				color: #FFFFFF;
+				font-size: 16px;
+				padding-right: 25px;
+			}
+			
+			.navbar_right>span {
+				margin-right: 25px;
+			}
+			
+			.navbar_right>a {
+				color: #FFFFFF;
+			}
+			
+			iframe {
+				height: 864px;
+				background: #FFFFFF;
+			}
+			
+			.page-body {
+				padding: 0px;
+			}
+			
+			.page_title {
+				height: 30px;
+				line-height: 30px;
+				border-bottom: 1px solid #dddddd;
+				background: #FFFFFF;
+			}
+			
+			.tas {
+				border: 1px solid #DDDDDD;
+				padding: 2px 5px;
+				margin-right: 10px;
+				text-decoration: none;
+			}
+			
+			.tas>a {
+				margin-right: 5px;
+			}
+			
+			.compont_check {
+				position: absolute;
+				top: 6px;
+				left: 250px;
+				font-size: 20px!important;
+				color: #FFFFFF;
+				padding: 0px 3px;
+			}
+			
+			.compont_check>label {
+				font-size: 16px;
+			}
+			
+			.compont_check select {
+				border-radius: 5px;
+			}
+		</style>
+	</head>
+
+	<body>
+		<div class="loading-container">
+			<div class="loading-progress">
+				<div class="rotator">
+					<div class="rotator">
+						<div class="rotator colored">
+							<div class="rotator">
+								<div class="rotator colored">
+									<div class="rotator colored"></div>
+									<div class="rotator"></div>
+								</div>
+								<div class="rotator colored"></div>
+							</div>
+							<div class="rotator"></div>
+						</div>
+						<div class="rotator"></div>
+					</div>
+					<div class="rotator"></div>
+				</div>
+				<div class="rotator"></div>
+			</div>
+		</div>
+		<!--页头-->
+		<div class="navbar">
+			<div class="navbar-inner">
+				<div class="navbar-container">
+					<!--页头 左边部分-->
+					<div class="navbar-header pull-left">
+						<a href="#" class="navbar-brand">
+							<small>
+                           <span style="vertical-align:middle;">淘钉钉后台管理</span>
+                        </small>
+						</a>
+					</div>
+					<div class="sidebar-collapse" id="sidebar-collapse">
+						<i class="collapse-icon fa fa-bars"></i>
+					</div>
+					<!--仓库选择-->
+					<div class="compont_check" style="display: none;">
+						<label>分公司</label>
+						<select class="selectpicker">
+							<option value=""></option>
+						</select>
+						<label>仓库</label>
+						<select class="selectpicker1">
+							<option value=""></option>
+						</select>
+					</div>
+					<!--页头 右边部分-->
+					<div class="navbar-header pull-right">
+						<div class="navbar_right">
+							<span>角色名称</span>
+							<a href="Javascript:viod(0)">退出</a>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<!--侧边栏-->
+		<div class="main-container container-fluid">
+			<div class="page-container">
+				<div class="page-sidebar" id="sidebar">
+					<ul class="nav sidebar-menu">
+						<!--商城管理-->
+						<li>
+							<a href="#" class="menu-dropdown">
+								<span class="menu-text">商城管理</span>
+								<i class="menu-expand"></i>
+							</a>
+							<ul class="submenu">
+								<li>
+									<a href="elements.html">
+										<span class="menu-text">Basic Elements</span>
+									</a>
+								</li>
+								<li>
+									<a href="#" class="menu-dropdown">
+										<span class="menu-text">
+                                        Icons
+                                    </span>
+										<i class="menu-expand"></i>
+									</a>
+
+									<ul class="submenu">
+										<li>
+											<a href="font-awesome.html">
+												<i class="menu-icon fa fa-rocket"></i>
+												<span class="menu-text">Font Awesome</span>
+											</a>
+										</li>
+										<li>
+											<a href="glyph-icons.html">
+												<i class="menu-icon glyphicon glyphicon-stats"></i>
+												<span class="menu-text">Glyph Icons</span>
+											</a>
+										</li>
+										<li>
+											<a href="typicon.html">
+												<i class="menu-icon typcn typcn-location-outline"></i>
+												<span class="menu-text"> Typicons</span>
+											</a>
+										</li>
+										<li>
+											<a href="weather-icons.html">
+												<i class="menu-icon wi-day-snow"></i>
+												<span class="menu-text">Weather Icons</span>
+											</a>
+										</li>
+									</ul>
+								</li>
+								<li>
+									<a href="tabs.html">
+										<span class="menu-text">Tabs & Accordions</span>
+									</a>
+								</li>
+								<li>
+									<a href="alerts.html">
+										<span class="menu-text">Alerts & Tooltips</span>
+									</a>
+								</li>
+								<li>
+									<a href="modals.html">
+										<span class="menu-text">Modals & Wells</span>
+									</a>
+								</li>
+								<li>
+									<a href="buttons.html">
+										<span class="menu-text">Buttons</span>
+									</a>
+								</li>
+								<li>
+									<a href="nestable-list.html">
+										<span class="menu-text"> Nestable List</span>
+									</a>
+								</li>
+								<li>
+									<a href="treeview.html">
+										<span class="menu-text">Treeview</span>
+									</a>
+								</li>
+							</ul>
+						</li>
+						<!--商品管理-->
+						<li>
+							<a href="#" class="menu-dropdown">
+								<span class="menu-text">商品管理</span>
+								<i class="menu-expand"></i>
+							</a>
+							<ul class="submenu">
+								<li>
+									<a href="goods_info.html" target="targets">
+										<span class="menu-text">商品信息</span>
+									</a>
+								</li>
+								<li>
+									<a href="tables-data.html" target="targets">
+										<span class="menu-text">调价管理</span>
+									</a>
+								</li>
+								<li>
+									<a href="tables-data.html" target="targets">
+										<span class="menu-text">商品参数管理</span>
+									</a>
+								</li>
+							</ul>
+						</li>
+						<!--采购管理-->
+						<li>
+							<a href="#" class="menu-dropdown">
+								<span class="menu-text">采购管理</span>
+								<i class="menu-expand"></i>
+							</a>
+							<ul class="submenu">
+								<li>
+									<a href="purchase_orders.html" target="targets">
+										<span class="menu-text">采购订单</span>
+									</a>
+								</li>
+								<li>
+									<a href="purchase_o.html" target="targets">
+										<span class="menu-text">采购单</span>
+									</a>
+								</li>
+							</ul>
+						</li>
+						<!--Profile-->
+						<!--<li>
+							<a href="profile.html">
+								<i class="menu-icon fa fa-picture-o"></i>
+								<span class="menu-text">Profile</span>
+							</a>
+						</li>-->
+						<!--仓库管理-->
+						<li>
+							<a href="#" class="menu-dropdown">
+								<span class="menu-text">仓库管理</span>
+								<i class="menu-expand"></i>
+							</a>
+							<ul class="submenu">
+								<li>
+									<a href="storehouse_people.html" target="targets">
+										<span class="menu-text">人员管理</span>
+									</a>
+								</li>
+								<li>
+									<a href="storehouse_branch.html" target="targets">
+										<span class="menu-text">分仓管理</span>
+									</a>
+								</li>
+								<li>
+									<a href="storehouse_location.html" target="targets">
+										<span class="menu-text">库位管理</span>
+									</a>
+								</li>
+								<li>
+									<a href="storehouse_stock.html" target="targets">
+										<span class="menu-text">库存管理</span>
+									</a>
+								</li>
+								<li>
+									<a href="storehouse_customs.html" target="targets">
+										<span class="menu-text">报单管理</span>
+									</a>
+								</li>
+							</ul>
+						</li>
+						<!--销售管理-->
+						<li>
+							<a href="#" class="menu-dropdown">
+								<span class="menu-text">销售管理</span>
+								<i class="menu-expand"></i>
+							</a>
+							<ul class="submenu">
+								<li>
+									<a href="timeline.html" target="targets">
+										<span class="menu-text">销售单管理</span>
+									</a>
+								</li>
+								<li>
+									<a href="pricing.html" target="targets">
+										<span class="menu-text">销售单</span>
+									</a>
+								</li>
+
+								<li>
+									<a href="invoice.html">
+										<span class="menu-text">Invoice</span>
+									</a>
+								</li>
+
+								<li>
+									<a href="login.html">
+										<span class="menu-text">Login</span>
+									</a>
+								</li>
+								<li>
+									<a href="register.html">
+										<span class="menu-text">Register</span>
+									</a>
+								</li>
+								<li>
+									<a href="lock.html">
+										<span class="menu-text">Lock Screen</span>
+									</a>
+								</li>
+								<li>
+									<a href="typography.html">
+										<span class="menu-text"> Typography </span>
+									</a>
+								</li>
+							</ul>
+						</li>
+						<!--财务管理-->
+						<li>
+							<a href="#" class="menu-dropdown">
+								<span class="menu-text">财务管理</span>
+								<i class="menu-expand"></i>
+							</a>
+							<ul class="submenu">
+								<li>
+									<a href="error-404.html">
+										<span class="menu-text">Error 404</span>
+									</a>
+								</li>
+
+								<li>
+									<a href="error-500.html">
+										<span class="menu-text"> Error 500</span>
+									</a>
+								</li>
+								<li>
+									<a href="blank.html">
+										<span class="menu-text">Blank Page</span>
+									</a>
+								</li>
+								<li>
+									<a href="grid.html">
+										<span class="menu-text"> Grid</span>
+									</a>
+								</li>
+								<li>
+									<a href="#" class="menu-dropdown">
+										<span class="menu-text">
+                                        Multi Level Menu
+                                    </span>
+										<i class="menu-expand"></i>
+									</a>
+
+									<ul class="submenu">
+										<li>
+											<a href="#">
+												<i class="menu-icon fa fa-camera"></i>
+												<span class="menu-text">Level 3</span>
+											</a>
+										</li>
+
+										<li>
+											<a href="#" class="menu-dropdown">
+												<i class="menu-icon fa fa-asterisk"></i>
+
+												<span class="menu-text">
+                                                Level 4
+                                            </span>
+												<i class="menu-expand"></i>
+											</a>
+
+											<ul class="submenu">
+												<li>
+													<a href="#">
+														<i class="menu-icon fa fa-bolt"></i>
+														<span class="menu-text">Some Item</span>
+													</a>
+												</li>
+
+												<li>
+													<a href="#">
+														<i class="menu-icon fa fa-bug"></i>
+														<span class="menu-text">Another Item</span>
+													</a>
+												</li>
+											</ul>
+										</li>
+
+									</ul>
+								</li>
+
+							</ul>
+						</li>
+						<!--统计管理-->
+						<li>
+							<a href="#" class="menu-dropdown">
+								<span class="menu-text">统计管理</span>
+								<i class="menu-expand"></i>
+							</a>
+							<ul class="submenu">
+								<li>
+									<a href="index-rtl-ar.html">
+										<span class="menu-text">Arabic Layout</span>
+									</a>
+								</li>
+
+								<li>
+									<a href="index-rtl-fa.html">
+										<span class="menu-text">Persian Layout</span>
+									</a>
+								</li>
+							</ul>
+						</li>
+						<!--物流管理-->
+						<li>
+							<a href="#" class="menu-dropdown">
+								<span class="menu-text">物流管理</span>
+								<i class="menu-expand"></i>
+							</a>
+							<ul class="submenu">
+								<li>
+									<a href="index-rtl-ar.html">
+										<span class="menu-text">Arabic Layout</span>
+									</a>
+								</li>
+
+								<li>
+									<a href="index-rtl-fa.html">
+										<span class="menu-text">Persian Layout</span>
+									</a>
+								</li>
+							</ul>
+						</li>
+						<!--系统管理-->
+						<li>
+							<a href="#" class="menu-dropdown">
+								<span class="menu-text">系统管理</span>
+								<i class="menu-expand"></i>
+							</a>
+							<ul class="submenu">
+								<li>
+									<a href="index-rtl-ar.html" target="targets">
+										<span class="menu-text">Arabic Layout</span>
+									</a>
+								</li>
+								<li>
+									<a href="index-rtl-fa.html">
+										<span class="menu-text">Persian Layout</span>
+									</a>
+								</li>
+							</ul>
+						</li>
+					</ul>
+				</div>
+				<!--内容区-->
+				<div class="page-content">
+					<!--点击添加-->
+					<div class="page_title"></div>
+					<!-- 主题内容 -->
+					<div class="page-body">
+						<iframe src="storehouse_people.html" width="100%" height="100%" name="targets" frameborder="no"></iframe>
+					</div>
+				</div>
+			</div>
+		</div>
+		<script src="assets/js/jquery-2.0.3.min.js"></script>
+		<script src="assets/js/bootstrap.min.js"></script>
+		<script src="assets/js/beyond.js"></script>
+		<script src="assets/js/charts/sparkline/jquery.sparkline.js"></script>
+		<script src="assets/js/charts/sparkline/sparkline-init.js"></script>
+		<script src="assets/js/charts/easypiechart/jquery.easypiechart.js"></script>
+		<script src="assets/js/charts/easypiechart/easypiechart-init.js"></script>
+		<script>
+			//判断是否为总公司
+			var userInfo = JSON.parse(sessionStorage.getItem('userInfo'));
+			console.log(userInfo);
+			if(userInfo.id == 0) {
+				$(function() {
+					$('.compont_check').show();
+					company();
+					if(sessionStorage.getItem('company') != null) {
+						$('.selectpicker').val(sessionStorage.getItem('company'));
+					} else {
+						$('.selectpicker').trigger('change');
+					};
+					stock($('.selectpicker').val());
+				});
+				$('.selectpicker').change(function() {
+					sessionStorage.setItem('company', $(this).val())
+					sessionStorage.removeItem('stock');
+					location.reload();
+				});
+				$('.selectpicker1').change(function() {
+					sessionStorage.setItem('stock', $(this).val())
+					location.reload();
+				});
+			} else {
+				$(function() {
+					$('.compont_check').show();
+					$('.compont_check').css('opacity', 0);
+					$('.selectpicker').hide();
+					$('.selectpicker1').hide();
+					$('.compont_check').prepend('<input type="text" class="selectpicker" readonly="readonly" style="cursor: auto;" />')
+						.prepend('<input type="text" class="selectpicker1" readonly="readonly" style="cursor: auto;" />')
+					$('.selectpicker').val(userInfo.company);
+					$('.selectpicker1').val(userInfo.wId);
+				})
+			}
+			//分公司
+			function company() {
+				$.ajax({
+					type: "get",
+					url: base + "system/company/select",
+					async: false,
+					headers: {
+						"Authorization": userInfo.token
+					},
+					success: function(data) {
+						var data = data.data;
+						var list = '';
+						$.each(data, function(index, obj) {
+							if(obj.id != 1){
+								list += '<option value="' + obj.id + '">' + obj.name + '</option>';
+							}
+						});
+						$('.selectpicker').html(list);
+					}
+				});
+			}
+			//仓库
+			function stock(a) {
+				if(a == 1) {
+					$('.compont_check').children('.selectpicker1').hide();
+					$('.compont_check').children('label').eq(1).hide();
+				} else {
+					$.ajax({
+						type: "get",
+						url: base + "warehouse//branch/selectList?cId=" + a,
+						async: true,
+						headers: {
+							"Authorization": userInfo.token
+						},
+						success: function(data) {
+							var data = data.data;
+							var list = '';
+							$.each(data, function(index, obj) {
+								list += '<option value="' + obj.id + '">' + obj.name + '</option>';
+							});
+							$('.selectpicker1').html(list);
+							if(sessionStorage.getItem('stock') != null) {
+								$('.selectpicker1').val(sessionStorage.getItem('stock'));
+							} else {
+								$('.selectpicker1').change(function() {
+									sessionStorage.setItem('stock', $(this).val())
+								});
+							}
+						}
+					});
+				}
+			}
+			//添加小窗口
+			$('a[target="targets"]').click(function() {
+				var vals = $(this).text().trim();
+				$('.tas').each(function(index, obj) {
+					if(vals == $(this).children('a').text()) {
+						$(this).remove();
+					}
+				});
+				var val = $(this).children().text();
+				var href = $(this).attr('href');
+				$('.page_title').append('<span class="tas" ><a href="' + href + '" target="targets">' + val + '</a><i class="glyphicon glyphicon-remove" onclick="del(this)"></i></span>');
+			})
+			//删除小窗口
+			function del(a) {
+				$(a).parent().remove();
+			}
+		</script>
+	</body>
+
+</html>
